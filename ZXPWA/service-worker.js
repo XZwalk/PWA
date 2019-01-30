@@ -34,7 +34,7 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
   var extendDataUrl = [
-    './download.json'
+    './api/download.json'
   ];
 
   var allDataUrl = extendDataUrl;

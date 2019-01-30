@@ -1,9 +1,6 @@
+var secondTab = {};
 
-
-var secondTab = {
-};
-
-secondTab.createItem = function(data){
+secondTab.createItem = function (data) {
     var template = document.querySelector('#blogListTemplate').content;
     //set content
     var link = template.getElementById('blogLink');
@@ -16,7 +13,7 @@ secondTab.createItem = function(data){
     var description = template.getElementById('description');
     description.innerHTML = data.description;
     var tag = template.getElementById('tag');
-    switch(data.category){
+    switch (data.category) {
         case 'code':
             tag.innerHTML = "技术";
             tag.color = "#AE57A4";
@@ -42,15 +39,16 @@ secondTab.createItem = function(data){
     return item;
 };
 
-secondTab.addBlogListContent = function(itemList){
-    while(window.app.container.childNodes[2]){
+secondTab.addBlogListContent = function (itemList) {
+    while (window.app.container.childNodes[2]) {
         window.app.container.removeChild(window.app.container.childNodes[2]);
     }
 
     for (var i = 0; i < itemList.length; i++) {
         var item = secondTab.createItem(itemList[i]);
         window.app.container.appendChild(item);
-    };
+    }
+    ;
 };
 
 /*****************************************************************************
@@ -59,12 +57,12 @@ secondTab.addBlogListContent = function(itemList){
  *
  ****************************************************************************/
 
-secondTab.requestBlogList = function(){
+secondTab.requestBlogList = function () {
     var url = "/api/download.json";
 
     if ('caches' in window) {
 
-        caches.match(url).then(function(response) {
+        caches.match(url).then(function (response) {
             if (response) {
                 response.json().then(function updateFromCache(json) {
                     var itemList = json.item;
@@ -75,8 +73,8 @@ secondTab.requestBlogList = function(){
     }
 
     var xmlhttp = createXMLHttpRequest();
-    xmlhttp.onreadystatechange=function(){
-        if (xmlhttp.readyState == XMLHttpRequest.DONE && xmlhttp.status==200){
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE && xmlhttp.status == 200) {
             var response = JSON.parse(xmlhttp.response);
             var itemList = response.item;
             secondTab.addBlogListContent(itemList);

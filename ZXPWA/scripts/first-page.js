@@ -1,5 +1,3 @@
-
-
 function showFirstPage() {
     // 使用createElement创建元素
     var dialog = document.createElement('div');

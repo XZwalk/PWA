@@ -48,7 +48,6 @@ secondTab.addBlogListContent = function (itemList) {
         var item = secondTab.createItem(itemList[i]);
         window.app.container.appendChild(item);
     }
-    ;
 };
 
 /*****************************************************************************

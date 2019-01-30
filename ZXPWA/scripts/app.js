@@ -12,6 +12,7 @@
         container: document.querySelector('.post-list-body'),
     };
 
+    //将app设置为全局变量
     window.app = app;
 
     /*****************************************************************************
@@ -49,11 +50,10 @@
             app.appColumn3.classList.remove('active');
             switch (index) {
                 case 1:
+                    firstTab.showPage();
                     app.appColumn1.classList.add('active');
                     break;
                 case 2:
-
-
                     secondTab.requestBlogList();
                     app.appColumn2.classList.add('active');
                     break;
@@ -65,6 +65,9 @@
             app.currentColumn = index;
         }
     };
+
+    //默认选中第一个tab
+    app.updateColumn(1);
 
 
     if ('serviceWorker' in navigator) {

@@ -72,7 +72,8 @@
 
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
-            .register('../service-worker.js')
+            ///PWA/ZXPWA/api/download.json
+            .register('/PWA/ZXPWA/service-worker.js')
             .then(function () {
                 console.log('Service Worker Registered');
             })

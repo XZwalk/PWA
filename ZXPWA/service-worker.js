@@ -69,7 +69,11 @@ self.addEventListener('fetch', function(e) {
         return respond || fetch(e.request)
           .then(function(res){
             return caches.open(cacheName).then(function(cache){
-              cache.put(e.request.url, res.clone()); 
+              if (e.request.url.indexOf("xzwalk.github.io") != -1) {
+                cache.put(e.request.url, res.clone());
+              } else {
+                console.log(e.request.url);
+              }
               return res;
             });
           })

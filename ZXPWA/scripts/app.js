@@ -73,6 +73,7 @@
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
             ///PWA/ZXPWA/api/download.json
+            //这里不是相对路径的js，而是最终网络请求可以访问到的url路径
             .register('/PWA/ZXPWA/service-worker.js')
             .then(function () {
                 console.log('Service Worker Registered');

@@ -1,15 +1,15 @@
 var cacheName = 'pwa-devlab-v1.44';
 var filesToCache = [
-  '/',
-  '/index.html',
-  '/offline.html',
-  '/scripts/app.js',
-  '/styles/inline.css',
-  '/images/ic_about_white.svg',
-  '/images/ic_back_white.svg',
-  '/images/offline.jpg',
-  '/images/woodwall.jpg',
-  '/images/woodwall2.jpg'
+  './',
+  './index.html',
+  './offline.html',
+  './scripts/app.js',
+  './styles/inline.css',
+  './images/ic_about_white.svg',
+  './images/ic_back_white.svg',
+  './images/offline.jpg',
+  './images/woodwall.jpg',
+  './images/woodwall2.jpg'
 ];
 
 self.addEventListener('install', function(e) {
@@ -34,7 +34,7 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
   var extendDataUrl = [
-    '/download.json'
+    './download.json'
   ];
 
   var allDataUrl = extendDataUrl;

@@ -22,7 +22,7 @@
       "sizes": "256x256",
       "type": "image/png"
     }],
-  "start_url": "/index.html",
+  "start_url": "/PWA/ZXPWA/index.html",
   "display": "standalone",
   "background_color": "#34e2c0",
   "theme_color": "#ab6b3d"

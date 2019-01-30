@@ -58,6 +58,10 @@
   };
 
   app.addItemContent();
+
+  //Service Worker 在网页已经关闭的情况下还可以运行,
+  // 用来实现页面的缓存和离线, 后台通知等等功能。sw.js 文件需要在 HTML 当中引入
+  //检查浏览器是否支持 service workers，如果支持，就注册 service worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
              .register('/px2dp-sw.js')

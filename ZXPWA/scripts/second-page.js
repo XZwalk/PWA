@@ -57,7 +57,7 @@ secondTab.addBlogListContent = function (itemList) {
  ****************************************************************************/
 
 secondTab.requestBlogList = function () {
-    var url = "/api/download.json";
+    var url = "/PWA/ZXPWA/api/download.json";
 
     if ('caches' in window) {
 

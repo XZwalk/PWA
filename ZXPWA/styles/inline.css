@@ -148,10 +148,10 @@ body {
     cursor: pointer; }
 
   .header #butAbout {
-  background: url(/images/ic_about_white.svg) center center no-repeat; }
+  background: url(../images/ic_about_white.svg) center center no-repeat; }
   
   .header #butBack {
-  background: url(/images/ic_back_white.svg) center center no-repeat; }
+  background: url(../images/ic_back_white.svg) center center no-repeat; }
 
 .header_title {
   font-weight: 400;

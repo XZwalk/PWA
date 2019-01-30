@@ -1,5 +1,7 @@
 (function() {
   'use strict';
+  
+  alert(12121);
 
   var app = { 
     container: document.querySelector('.post-list-body'),

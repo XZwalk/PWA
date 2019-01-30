@@ -4,6 +4,8 @@ var filesToCache = [
   './index.html',
   './offline.html',
   './scripts/app.js',
+  './scripts/first-page.js',
+  './scripts/second-page.js',
   './styles/inline.css',
   './images/ic_about_white.svg',
   './images/ic_back_white.svg',

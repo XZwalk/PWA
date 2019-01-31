@@ -9,7 +9,7 @@
 [Service Worker:让网页无网络也能访问](https://kymjs.com/code/2017/02/15/01/)  
 [体验地址 : https://kymjs.github.io/PWAblog/](https://kymjs.github.io/PWAblog/)
 
-
+[体验地址 : https://xzwalk.github.io/PWA/ZXPWA/](https://xzwalk.github.io/PWA/ZXPWA/)
 
 ## 安装
 ```

@@ -50,6 +50,9 @@
 <script>
     //对原始数据进行加密操作的时候配置参照assets/image/aes加密操作.png
     let secretKey = document.getElementById("secretKey").value;
+    if (secretKey.length !== 16) {
+        secretKey = "";
+    }
 
     function decryptedData(aesData) {
 
@@ -74,7 +77,7 @@
 </script>
 
 
-<div class="list-item" style="margin-top: 10px">
+<div class="list-item" style="margin-top: 10px" id="bus-total-div">
     <h2>商贷</h2>
     <p>
         贷款银行：
@@ -113,10 +116,15 @@
 <!--商业贷款总览-->
 <script>
     function handleBusinessLoanTotalResponse(data) {
+
+        data = decryptedData(data);
+
         if (!data || data.length === 0) {
+            //隐藏
+            document.getElementById("bus-total-div").style.display="none";
             return;
         }
-        data = decryptedData(data);
+
         //去字符串后面的特殊字符
         data = data.replace(/\u0000/g, "");
         let jsonData = JSON.parse(data);
@@ -145,7 +153,7 @@
 
 
 
-<div class="list-item">
+<div class="list-item" id="fund-total-div">
     <h2>公积金贷款</h2>
     <p>
         委贷银行：
@@ -184,10 +192,15 @@
 <!--公积金贷款总览-->
 <script>
     function handleFundLoanTotalResponse(data) {
+
+        data = decryptedData(data);
+
         if (!data || data.length === 0) {
+            //隐藏
+            document.getElementById("fund-total-div").style.display="none";
             return;
         }
-        data = decryptedData(data);
+
         //去字符串后面的特殊字符
         data = data.replace(/\u0000/g, "");
         let jsonData = JSON.parse(data);
@@ -212,7 +225,7 @@
 <script type="text/javascript" src="data/fund-repayment-plan.js"></script>
 
 
-<div class="list-item">
+<div class="list-item" id="car-total-div">
     <h2>车位贷款</h2>
     <p>
         贷款银行：
@@ -251,10 +264,15 @@
 <!--车位贷款总览-->
 <script>
     function handleCarLoanTotalResponse(data) {
+
+        data = decryptedData(data);
+
         if (!data || data.length === 0) {
+            //隐藏
+            document.getElementById("car-total-div").style.display="none";
             return;
         }
-        data = decryptedData(data);
+
         //去字符串后面的特殊字符
         data = data.replace(/\u0000/g, "");
         let jsonData = JSON.parse(data).INFBDY.WCLNQLN1Z1[0];

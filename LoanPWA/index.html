@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>贷款信息</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="icon" href="/e.png" type="image/png" />
+</head>
+
+<body>
+
+<!--密匙输入与展示-->
+<div>
+    密匙: <input type="text" id="secretKey" value="请输入你的密匙">
+    <button id="changeKey">更新密匙</button>
+</div>
+<script type="text/javascript">
+    // 取回
+    document.getElementById("secretKey").value = localStorage.getItem("myLoanSecretKey");
+
+    document.getElementById("changeKey").onclick = function () {
+        if (typeof(Storage) !== "undefined") {
+            // 存储
+            localStorage.setItem("myLoanSecretKey", document.getElementById("secretKey").value);
+        } else {
+            document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
+        }
+    };
+
+
+
+    //注册缓存
+    if (navigator.serviceWorker != null) {
+        navigator.serviceWorker.register('sw.js')
+            .then(function (registration) {
+                console.log('Registered events at scope: ', registration.scope);
+            });
+    }
+</script>
+
+<!--解密-->
+<!--https://moln.site/2018/06/22/crypto-js-aes-usage.html-->
+<!--http://tool.chacuo.net/cryptaes-->
+<!--http://www.fly63.com/article/detial/426-->
+<script type="text/javascript" src="tool/crypto-js-3.1.9-1/crypto-js.js"></script>
+<script>
+    //对原始数据进行加密操作的时候配置参照assets/image/aes加密操作.png
+    let secretKey = document.getElementById("secretKey").value;
+
+    function decryptedData(aesData) {
+
+        if (!aesData || aesData.length === 0) {
+            return "";
+        }
+
+        if (!secretKey || secretKey.length === 0) {
+            return "";
+        }
+
+        let key = CryptoJS.enc.Utf8.parse(secretKey);
+
+        let decryptedData = CryptoJS.AES.decrypt(aesData, key, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+
+        let decryptedStr = decryptedData.toString(CryptoJS.enc.Utf8);
+        return decryptedStr;
+    }
+</script>
+
+
+<!--商业贷款总览-->
+<script>
+    function handleBusinessLoanTotalResponse(data) {
+        console.log(decryptedData(data));
+    }
+</script>
+<script type="text/javascript" src="data/business-loan-total.js"></script>
+
+<!--商业贷款还款计划-->
+<script>
+    function handleBusinessRepaymentPlanResponse(data) {
+        console.log(decryptedData(data));
+    }
+</script>
+<script type="text/javascript" src="data/business-repayment-plan.js"></script>
+
+
+<!--公积金贷款总览-->
+<script>
+    function handleFundLoanTotalResponse(data) {
+        console.log(decryptedData(data));
+    }
+</script>
+<script type="text/javascript" src="data/fund-loan-total.js"></script>
+
+<!--公积金贷款还款计划-->
+<script>
+    function handleFundRepaymentPlanResponse(data) {
+        console.log(decryptedData(data));
+    }
+</script>
+<script type="text/javascript" src="data/fund-repayment-plan.js"></script>
+
+<!--车位贷款总览-->
+<script>
+    function handleCarLoanTotalResponse(data) {
+        console.log(decryptedData(data));
+    }
+</script>
+<script type="text/javascript" src="data/car-loan-total.js"></script>
+
+<!--车位贷款还款计划-->
+<script>
+    function handleCarRepaymentPlanResponse(data) {
+        console.log(decryptedData(data));
+    }
+</script>
+<script type="text/javascript" src="data/car-repayment-plan.js"></script>
+
+
+
+</body>
+
+</html>

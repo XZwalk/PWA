@@ -1,0 +1,4 @@
+let businessLoanTotalData = "do/XV13+4SDaIerzOzVbBB9Hv7N8yJSyg5h4X25DqUujiI0Ti6wgxSnnwFEFrAKfC/x08NMlw5fKdC9jOHi7pqM8AOnJ1WOXvAdH47t/51PHGT3O5zWcjleS6kUGpx4Y04ax9MHvt6uBb9NHvHBhhu4ddJmoHcywgxaYw1ywxriCPFO4OD1l73fQlX9hiUAeu8QavG8MY1ZugWdTMA6rVSrtvyJw6pOXC/vt2ViDbiM=";
+
+
+handleBusinessLoanTotalResponse(businessLoanTotalData);

@@ -68,8 +68,9 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
+/*之前为hidden，超出屏幕内容就滑不动了*/
 html {
-  overflow: hidden; }
+  overflow: scroll; }
 
 body {
   display: -webkit-box;

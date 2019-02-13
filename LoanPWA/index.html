@@ -77,16 +77,20 @@
 <div class="list-item" style="margin-top: 10px">
     <h2>商贷</h2>
     <p>
-        贷款银行：中国农业银行股份有限公司杭州解放路支行
+        贷款银行：
+        <span id="bus-total-bank"></span>
     </p>
     <p>
-        贷款利率：5.635%
+        贷款利率：
+        <span id="bus-total-rate"></span>
     </p>
     <p>
-        罚息利率：8.4525%
+        罚息利率：
+        <span id="bus-total-fine-rate"></span>
     </p>
     <p>
-        还款方式：等额本息
+        还款方式：
+        <span id="bus-total-pay-style"></span>
     </p>
     <p>
         贷款本金：
@@ -116,6 +120,10 @@
         //去字符串后面的特殊字符
         data = data.replace(/\u0000/g, "");
         let jsonData = JSON.parse(data);
+        document.getElementById("bus-total-bank").innerHTML = "中国农业银行股份有限公司杭州解放路支行";
+        document.getElementById("bus-total-rate").innerHTML = "5.635%";
+        document.getElementById("bus-total-fine-rate").innerHTML = "8.4525%";
+        document.getElementById("bus-total-pay-style").innerHTML = "等额本息";
         document.getElementById("bus-total-principal").innerHTML = jsonData[0].dLonAmt;
         document.getElementById("bus-total-balance").innerHTML = jsonData[0].dCurBal;
         document.getElementById("bus-total-firstDate").innerHTML = jsonData[0].sLonDat;
@@ -152,7 +160,8 @@
         <span id="fund-total-fine-rate"></span>
     </p>
     <p>
-        还款方式：等额本息
+        还款方式：
+        <span id="fund-total-pay-style"></span>
     </p>
     <p>
         贷款本金：
@@ -185,6 +194,7 @@
         document.getElementById("fund-total-bank").innerHTML = jsonData.loanBank;
         document.getElementById("fund-total-rate").innerHTML = jsonData.loanRate;
         document.getElementById("fund-total-fine-rate").innerHTML = jsonData.punishRate;
+        document.getElementById("fund-total-pay-style").innerHTML = "等额本息";
         document.getElementById("fund-total-principal").innerHTML = jsonData.loanAmount;
         document.getElementById("fund-total-balance").innerHTML = jsonData.remainAmount;
         document.getElementById("fund-total-firstDate").innerHTML = jsonData.loanBeginDate;
@@ -205,7 +215,7 @@
 <div class="list-item">
     <h2>车位贷款</h2>
     <p>
-        贷款银行：中国招商银行股份有限公司杭州深蓝支行
+        贷款银行：
         <span id="car-total-bank"></span>
     </p>
     <p>
@@ -217,7 +227,8 @@
         <span id="car-total-fine-rate"></span>
     </p>
     <p>
-        还款方式：等额本息
+        还款方式：
+        <span id="car-total-pay-style"></span>
     </p>
     <p>
         贷款本金：
@@ -247,8 +258,10 @@
         //去字符串后面的特殊字符
         data = data.replace(/\u0000/g, "");
         let jsonData = JSON.parse(data).INFBDY.WCLNQLN1Z1[0];
+        document.getElementById("car-total-bank").innerHTML = "中国招商银行股份有限公司杭州深蓝支行";
         document.getElementById("car-total-rate").innerHTML = jsonData.RATEXE;
         document.getElementById("car-total-fine-rate").innerHTML = "暂无";
+        document.getElementById("car-total-pay-style").innerHTML = "等额本息";
         document.getElementById("car-total-principal").innerHTML = jsonData.USDAMT;
         document.getElementById("car-total-balance").innerHTML = jsonData.CPTSUM;
         document.getElementById("car-total-firstDate").innerHTML = jsonData.BILUPD;

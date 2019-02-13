@@ -25,3 +25,6 @@ Change `cacheStorageKey` in `sw.js` to update app version.
 
 ### 组件
 aes加密：https://github.com/brix/crypto-js/releases
+
+[体验地址 : https://xzwalk.github.io/PWA/LoanPWA/](https://xzwalk.github.io/PWA/LoanPWA/)
+

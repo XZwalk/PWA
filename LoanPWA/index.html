@@ -5,7 +5,9 @@
     <title>贷款信息</title>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
     <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="styles/inline.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+
     <link rel="icon" href="/e.png" type="image/png" />
 </head>
 
@@ -72,27 +74,121 @@
 </script>
 
 
+<div class="list-item" style="margin-top: 10px">
+    <h2>商贷</h2>
+    <p>
+        贷款银行：中国农业银行股份有限公司杭州解放路支行
+    </p>
+    <p>
+        贷款利率：5.635%
+    </p>
+    <p>
+        罚息利率：8.4525%
+    </p>
+    <p>
+        还款方式：等额本息
+    </p>
+    <p>
+        贷款本金：
+        <span id="bus-total-principal"></span>
+    </p>
+    <p>
+        贷款余额：
+        <span id="bus-total-balance"></span>
+    </p>
+    <p>
+        贷款日期：
+        <span id="bus-total-firstDate"></span>
+    </p>
+    <p>
+        贷款到期日：
+        <span id="bus-total-endDate"></span>
+    </p>
+</div>
+
 <!--商业贷款总览-->
 <script>
     function handleBusinessLoanTotalResponse(data) {
-        console.log(decryptedData(data));
+        if (!data || data.length === 0) {
+            return;
+        }
+        data = decryptedData(data);
+        //去字符串后面的特殊字符
+        data = data.replace(/\u0000/g, "");
+        let jsonData = JSON.parse(data);
+        document.getElementById("bus-total-principal").innerHTML = jsonData[0].dLonAmt;
+        document.getElementById("bus-total-balance").innerHTML = jsonData[0].dCurBal;
+        document.getElementById("bus-total-firstDate").innerHTML = jsonData[0].sLonDat;
+        document.getElementById("bus-total-endDate").innerHTML = jsonData[0].sExpDat;
     }
 </script>
 <script type="text/javascript" src="data/business-loan-total.js"></script>
 
+
+
 <!--商业贷款还款计划-->
 <script>
     function handleBusinessRepaymentPlanResponse(data) {
-        console.log(decryptedData(data));
+        // console.log(decryptedData(data));
     }
 </script>
 <script type="text/javascript" src="data/business-repayment-plan.js"></script>
 
 
+
+
+<div class="list-item">
+    <h2>公积金贷款</h2>
+    <p>
+        委贷银行：
+        <span id="fund-total-bank"></span>
+    </p>
+    <p>
+        贷款利率：
+        <span id="fund-total-rate"></span>
+    </p>
+    <p>
+        罚息利率：
+        <span id="fund-total-fine-rate"></span>
+    </p>
+    <p>
+        还款方式：等额本息
+    </p>
+    <p>
+        贷款本金：
+        <span id="fund-total-principal"></span>
+    </p>
+    <p>
+        贷款余额：
+        <span id="fund-total-balance"></span>
+    </p>
+    <p>
+        贷款发放日：
+        <span id="fund-total-firstDate"></span>
+    </p>
+    <p>
+        贷款到期日：
+        <span id="fund-total-endDate"></span>
+    </p>
+</div>
+
 <!--公积金贷款总览-->
 <script>
     function handleFundLoanTotalResponse(data) {
-        console.log(decryptedData(data));
+        if (!data || data.length === 0) {
+            return;
+        }
+        data = decryptedData(data);
+        //去字符串后面的特殊字符
+        data = data.replace(/\u0000/g, "");
+        let jsonData = JSON.parse(data);
+        document.getElementById("fund-total-bank").innerHTML = jsonData.loanBank;
+        document.getElementById("fund-total-rate").innerHTML = jsonData.loanRate;
+        document.getElementById("fund-total-fine-rate").innerHTML = jsonData.punishRate;
+        document.getElementById("fund-total-principal").innerHTML = jsonData.loanAmount;
+        document.getElementById("fund-total-balance").innerHTML = jsonData.remainAmount;
+        document.getElementById("fund-total-firstDate").innerHTML = jsonData.loanBeginDate;
+        document.getElementById("fund-total-endDate").innerHTML = jsonData.loanEndDate;
     }
 </script>
 <script type="text/javascript" src="data/fund-loan-total.js"></script>
@@ -100,15 +196,63 @@
 <!--公积金贷款还款计划-->
 <script>
     function handleFundRepaymentPlanResponse(data) {
-        console.log(decryptedData(data));
+        // console.log(decryptedData(data));
     }
 </script>
 <script type="text/javascript" src="data/fund-repayment-plan.js"></script>
 
+
+<div class="list-item">
+    <h2>车位贷款</h2>
+    <p>
+        贷款银行：招商银行(深蓝支行)
+        <span id="car-total-bank"></span>
+    </p>
+    <p>
+        贷款利率：
+        <span id="car-total-rate"></span>
+    </p>
+    <p>
+        罚息利率：
+        <span id="car-total-fine-rate"></span>
+    </p>
+    <p>
+        还款方式：等额本息
+    </p>
+    <p>
+        贷款本金：
+        <span id="car-total-principal"></span>
+    </p>
+    <p>
+        贷款余额：
+        <span id="car-total-balance"></span>
+    </p>
+    <p>
+        贷款发放日：
+        <span id="car-total-firstDate"></span>
+    </p>
+    <p>
+        贷款到期日：
+        <span id="car-total-endDate"></span>
+    </p>
+</div>
+
 <!--车位贷款总览-->
 <script>
     function handleCarLoanTotalResponse(data) {
-        console.log(decryptedData(data));
+        if (!data || data.length === 0) {
+            return;
+        }
+        data = decryptedData(data);
+        //去字符串后面的特殊字符
+        data = data.replace(/\u0000/g, "");
+        let jsonData = JSON.parse(data).INFBDY.WCLNQLN1Z1[0];
+        document.getElementById("car-total-rate").innerHTML = jsonData.RATEXE;
+        document.getElementById("car-total-fine-rate").innerHTML = "暂无";
+        document.getElementById("car-total-principal").innerHTML = jsonData.USDAMT;
+        document.getElementById("car-total-balance").innerHTML = jsonData.CPTSUM;
+        document.getElementById("car-total-firstDate").innerHTML = jsonData.BILUPD;
+        document.getElementById("car-total-endDate").innerHTML = jsonData.ENDDTE;
     }
 </script>
 <script type="text/javascript" src="data/car-loan-total.js"></script>
@@ -116,7 +260,7 @@
 <!--车位贷款还款计划-->
 <script>
     function handleCarRepaymentPlanResponse(data) {
-        console.log(decryptedData(data));
+        // console.log(decryptedData(data));
     }
 </script>
 <script type="text/javascript" src="data/car-repayment-plan.js"></script>

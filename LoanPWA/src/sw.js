@@ -1,56 +1,78 @@
-
-console.log('Script loaded!')
-var cacheStorageKey = 'minimal-pwa-8'
-
-var cacheList = [
-  '/',
-  "index.html",
-  "main.css",
-  "e.png",
-  "pwa-fonts.png"
-]
+var cacheName = 'loan-pwa-0.0.1';
+var filesToCache = [
+    './',
+    './index.html',
+];
 
 self.addEventListener('install', function(e) {
-  console.log('Cache event!')
-  e.waitUntil(
-    caches.open(cacheStorageKey).then(function(cache) {
-      console.log('Adding to Cache:', cacheList)
-      return cache.addAll(cacheList)
-    }).then(function() {
-      console.log('Skip waiting!')
-      return self.skipWaiting()
-    })
-  )
-})
+    e.waitUntil(
+        caches.open(cacheName).then(function(cache) {
+            return cache.addAll(filesToCache);
+        })
+    );
+});
 
 self.addEventListener('activate', function(e) {
-  console.log('Activate event')
-  e.waitUntil(
-    Promise.all(
-      caches.keys().then(cacheNames => {
-        return cacheNames.map(name => {
-          if (name !== cacheStorageKey) {
-            return caches.delete(name)
-          }
+    e.waitUntil(
+        caches.keys().then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if (key !== cacheName) {
+                    return caches.delete(key);
+                }
+            }));
         })
-      })
-    ).then(() => {
-      console.log('Clients claims.')
-      return self.clients.claim()
-    })
-  )
-})
+    );
+});
 
 self.addEventListener('fetch', function(e) {
-  // console.log('Fetch event:', e.request.url)
-  e.respondWith(
-    caches.match(e.request).then(function(response) {
-      if (response != null) {
-        console.log('Using cache for:', e.request.url)
-        return response
-      }
-      console.log('Fallback to fetch:', e.request.url)
-      return fetch(e.request.url)
-    })
-  )
-})
+    var extendDataUrl = [
+        '/PWA/ZXPWA/api/download.json'
+    ];
+
+    var allDataUrl = extendDataUrl;
+    var requestIsDataApi = false;
+
+    //如果是 API 请求，先网络后缓存
+    for (count in extendDataUrl){
+        if (e.request.url.indexOf(extendDataUrl[count]) > -1 ) {
+            requestIsDataApi = true;
+            e.respondWith(
+                fetch(e.request)
+                    .then(function(response) {
+                        return caches.open(cacheName).then(function(cache){
+                            cache.put(e.request.url, response.clone());
+                            return response;
+                        });
+                    })
+                    .catch(function(){
+                        return caches.match(e.request.url);
+                    })
+            );
+            break;
+        }
+    }
+
+    //一般资源请求，先缓存再网络再默认
+    if (!requestIsDataApi){
+        e.respondWith(
+            caches.match(e.request).then(function(respond){
+                return respond || fetch(e.request)
+                    .then(function(res){
+                        return caches.open(cacheName).then(function(cache){
+                            if (e.request.url.indexOf("xzwalk.github.io") != -1) {
+                                cache.put(e.request.url, res.clone());
+                            } else {
+                                console.log(e.request.url);
+                            }
+                            return res;
+                        });
+                    })
+                    .catch(function(){
+                        return caches.match('offline.html');
+                    });
+            })
+        )
+    }
+
+});
+

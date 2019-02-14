@@ -4,7 +4,7 @@ var RUNTIME = 'runtime';
 // list the files you want cached by the service worker
 PRECACHE_URLS = [
     // 'index.html',
-    './',
+    '/PWA/LoanPWA/dist/',
     // 'style.css',
     // 'main.js'
 ];

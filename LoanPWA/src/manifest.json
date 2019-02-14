@@ -7,7 +7,7 @@
   "background_color": "#aaaaff",
   "icons": [
     {
-      "src": "e.png",
+      "src": "images/e.png",
       "sizes": "256x256",
       "type": "image/png"
     }

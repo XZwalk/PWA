@@ -2,7 +2,7 @@
   "name": "Minimal app to try PWA",
   "short_name": "Minimal PWA",
   "display": "standalone",
-  "start_url": "/PWA/LoanPWA/",
+  "start_url": "/PWA/LoanPWA/dist/",
   "theme_color": "#8888ff",
   "background_color": "#aaaaff",
   "icons": [

@@ -1,7 +1,7 @@
 var cacheName = 'loan-pwa-0.0.1';
 var filesToCache = [
     './',
-    './index.html',
+    // './index.html',
 ];
 
 self.addEventListener('install', function(e) {

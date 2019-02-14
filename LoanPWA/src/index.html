@@ -17,31 +17,6 @@
     密匙: <input type="text" id="secretKey" value="请输入你的密匙">
     <button id="changeKey">更新密匙</button>
 </div>
-<script type="text/javascript">
-    // 取回
-    document.getElementById("secretKey").value = localStorage.getItem("myLoanSecretKey");
-
-    document.getElementById("changeKey").onclick = function () {
-        if (typeof(Storage) !== "undefined") {
-            // 存储
-            localStorage.setItem("myLoanSecretKey", document.getElementById("secretKey").value);
-        } else {
-            document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
-        }
-    };
-
-
-
-    //注册缓存
-    if (navigator.serviceWorker != null) {
-        navigator.serviceWorker.register('sw.js')
-            .then(function (registration) {
-                console.log('Registered events at scope: ', registration.scope);
-            });
-    }
-</script>
-
-
 
 
 <div class="list-item" style="margin-top: 10px" id="bus-total-div">
@@ -79,23 +54,6 @@
         <span id="bus-total-endDate"></span>
     </p>
 </div>
-
-<!--商业贷款总览-->
-<script>
-
-</script>
-<script type="text/javascript" src="data/business-loan-total.js"></script>
-
-
-
-<!--商业贷款还款计划-->
-<script>
-    function handleBusinessRepaymentPlanResponse(data) {
-        // console.log(decryptedData(data));
-    }
-</script>
-<script type="text/javascript" src="data/business-repayment-plan.js"></script>
-
 
 
 
@@ -135,41 +93,6 @@
     </p>
 </div>
 
-<!--公积金贷款总览-->
-<script>
-    function handleFundLoanTotalResponse(data) {
-
-        data = decryptedData(data);
-
-        if (!data || data.length === 0) {
-            //隐藏
-            document.getElementById("fund-total-div").style.display="none";
-            return;
-        }
-
-        //去字符串后面的特殊字符
-        data = data.replace(/\u0000/g, "");
-        let jsonData = JSON.parse(data);
-        document.getElementById("fund-total-bank").innerHTML = jsonData.loanBank;
-        document.getElementById("fund-total-rate").innerHTML = jsonData.loanRate;
-        document.getElementById("fund-total-fine-rate").innerHTML = jsonData.punishRate;
-        document.getElementById("fund-total-pay-style").innerHTML = "等额本息";
-        document.getElementById("fund-total-principal").innerHTML = jsonData.loanAmount;
-        document.getElementById("fund-total-balance").innerHTML = jsonData.remainAmount;
-        document.getElementById("fund-total-firstDate").innerHTML = jsonData.loanBeginDate;
-        document.getElementById("fund-total-endDate").innerHTML = jsonData.loanEndDate;
-    }
-</script>
-<script type="text/javascript" src="data/fund-loan-total.js"></script>
-
-<!--公积金贷款还款计划-->
-<script>
-    function handleFundRepaymentPlanResponse(data) {
-        // console.log(decryptedData(data));
-    }
-</script>
-<script type="text/javascript" src="data/fund-repayment-plan.js"></script>
-
 
 <div class="list-item" id="car-total-div">
     <h2>车位贷款</h2>
@@ -206,41 +129,6 @@
         <span id="car-total-endDate"></span>
     </p>
 </div>
-
-<!--车位贷款总览-->
-<script>
-    function handleCarLoanTotalResponse(data) {
-
-        data = decryptedData(data);
-
-        if (!data || data.length === 0) {
-            //隐藏
-            document.getElementById("car-total-div").style.display="none";
-            return;
-        }
-
-        //去字符串后面的特殊字符
-        data = data.replace(/\u0000/g, "");
-        let jsonData = JSON.parse(data).INFBDY.WCLNQLN1Z1[0];
-        document.getElementById("car-total-bank").innerHTML = "中国招商银行股份有限公司杭州深蓝支行";
-        document.getElementById("car-total-rate").innerHTML = jsonData.RATEXE;
-        document.getElementById("car-total-fine-rate").innerHTML = "暂无";
-        document.getElementById("car-total-pay-style").innerHTML = "等额本息";
-        document.getElementById("car-total-principal").innerHTML = jsonData.USDAMT;
-        document.getElementById("car-total-balance").innerHTML = jsonData.CPTSUM;
-        document.getElementById("car-total-firstDate").innerHTML = jsonData.BILUPD;
-        document.getElementById("car-total-endDate").innerHTML = jsonData.ENDDTE;
-    }
-</script>
-<script type="text/javascript" src="data/car-loan-total.js"></script>
-
-<!--车位贷款还款计划-->
-<script>
-    function handleCarRepaymentPlanResponse(data) {
-        // console.log(decryptedData(data));
-    }
-</script>
-<script type="text/javascript" src="data/car-repayment-plan.js"></script>
 
 
 

@@ -11,10 +11,42 @@ import '../../main.css';
 import CryptoJS from 'crypto-js/crypto-js';
 
 import { handleBusinessLoanTotalResponse } from "../data/business-loan-total";
+import { handleBusinessRepaymentPlanResponse } from "../data/business-repayment-plan";
+
+import { handleFundLoanTotalResponse } from "../data/fund-loan-total";
+import { handleFundRepaymentPlanResponse } from "../data/fund-repayment-plan";
+
+import { handleCarLoanTotalResponse } from "../data/car-loan-total";
+import { handleCarRepaymentPlanResponse } from "../data/car-repayment-plan";
+
+
 
 
 //因为webpack打包的时候不会去处理内嵌到html中的js代码，如果是低版本的系统（安卓4.4）会出现一些语法不支持的问题，比如let，() => {}等问题
 //webpack则会处理兼容这些问题
+
+
+// 取回
+document.getElementById("secretKey").value = localStorage.getItem("myLoanSecretKey");
+
+document.getElementById("changeKey").onclick = function () {
+    if (typeof(Storage) !== "undefined") {
+        // 存储
+        localStorage.setItem("myLoanSecretKey", document.getElementById("secretKey").value);
+    } else {
+        document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
+    }
+};
+
+
+
+//注册缓存
+if (navigator.serviceWorker != null) {
+    navigator.serviceWorker.register('sw.js')
+        .then(function (registration) {
+            console.log('Registered events at scope: ', registration.scope);
+        });
+}
 
 
 // 解密
@@ -79,16 +111,64 @@ handleBusinessLoanTotalResponse((data) => {
     $("#bus-total-endDate").html(jsonData[0].sExpDat);
 });
 
+handleBusinessRepaymentPlanResponse(() => {
+
+});
 
 
+//公积金贷款总览
+handleFundLoanTotalResponse((data) => {
+    data = decryptedData(data);
 
+    if (!data || data.length === 0) {
+        //隐藏
+        document.getElementById("fund-total-div").style.display="none";
+        return;
+    }
 
+    //去字符串后面的特殊字符
+    data = data.replace(/\u0000/g, "");
+    let jsonData = JSON.parse(data);
+    document.getElementById("fund-total-bank").innerHTML = jsonData.loanBank;
+    document.getElementById("fund-total-rate").innerHTML = jsonData.loanRate;
+    document.getElementById("fund-total-fine-rate").innerHTML = jsonData.punishRate;
+    document.getElementById("fund-total-pay-style").innerHTML = "等额本息";
+    document.getElementById("fund-total-principal").innerHTML = jsonData.loanAmount;
+    document.getElementById("fund-total-balance").innerHTML = jsonData.remainAmount;
+    document.getElementById("fund-total-firstDate").innerHTML = jsonData.loanBeginDate;
+    document.getElementById("fund-total-endDate").innerHTML = jsonData.loanEndDate;
+});
 
+handleFundRepaymentPlanResponse(() => {
 
+});
 
+//车位贷总览
+handleCarLoanTotalResponse((data) => {
+    data = decryptedData(data);
 
+    if (!data || data.length === 0) {
+        //隐藏
+        document.getElementById("car-total-div").style.display="none";
+        return;
+    }
 
+    //去字符串后面的特殊字符
+    data = data.replace(/\u0000/g, "");
+    let jsonData = JSON.parse(data).INFBDY.WCLNQLN1Z1[0];
+    document.getElementById("car-total-bank").innerHTML = "中国招商银行股份有限公司杭州深蓝支行";
+    document.getElementById("car-total-rate").innerHTML = jsonData.RATEXE;
+    document.getElementById("car-total-fine-rate").innerHTML = "暂无";
+    document.getElementById("car-total-pay-style").innerHTML = "等额本息";
+    document.getElementById("car-total-principal").innerHTML = jsonData.USDAMT;
+    document.getElementById("car-total-balance").innerHTML = jsonData.CPTSUM;
+    document.getElementById("car-total-firstDate").innerHTML = jsonData.BILUPD;
+    document.getElementById("car-total-endDate").innerHTML = jsonData.ENDDTE;
+});
 
+handleCarRepaymentPlanResponse(() => {
+
+});
 
 
 

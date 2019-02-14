@@ -41,6 +41,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "less-plugin-clean-css": "^1.5.1"
   },
   "babel": {

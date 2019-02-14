@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>贷款信息</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" type="text/css" href="styles/inline.css">
-    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <link rel="manifest" href="manifest.json"/>
+    <link rel="icon" href="/e.png" type="image/png"/>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 
-    <link rel="icon" href="/e.png" type="image/png" />
 </head>
 
 <body>
@@ -42,39 +41,7 @@
     }
 </script>
 
-<!--解密-->
-<!--https://moln.site/2018/06/22/crypto-js-aes-usage.html-->
-<!--http://tool.chacuo.net/cryptaes-->
-<!--http://www.fly63.com/article/detial/426-->
-<script type="text/javascript" src="tool/crypto-js-3.1.9-1/crypto-js.js"></script>
-<script>
-    //对原始数据进行加密操作的时候配置参照assets/image/aes加密操作.png
-    let secretKey = document.getElementById("secretKey").value;
-    if (secretKey.length !== 16) {
-        secretKey = "";
-    }
 
-    function decryptedData(aesData) {
-
-        if (!aesData || aesData.length === 0) {
-            return "";
-        }
-
-        if (!secretKey || secretKey.length === 0) {
-            return "";
-        }
-
-        let key = CryptoJS.enc.Utf8.parse(secretKey);
-
-        let decryptedData = CryptoJS.AES.decrypt(aesData, key, {
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7
-        });
-
-        let decryptedStr = decryptedData.toString(CryptoJS.enc.Utf8);
-        return decryptedStr;
-    }
-</script>
 
 
 <div class="list-item" style="margin-top: 10px" id="bus-total-div">
@@ -115,28 +82,7 @@
 
 <!--商业贷款总览-->
 <script>
-    function handleBusinessLoanTotalResponse(data) {
 
-        data = decryptedData(data);
-
-        if (!data || data.length === 0) {
-            //隐藏
-            document.getElementById("bus-total-div").style.display="none";
-            return;
-        }
-
-        //去字符串后面的特殊字符
-        data = data.replace(/\u0000/g, "");
-        let jsonData = JSON.parse(data);
-        document.getElementById("bus-total-bank").innerHTML = "中国农业银行股份有限公司杭州解放路支行";
-        document.getElementById("bus-total-rate").innerHTML = "5.635%";
-        document.getElementById("bus-total-fine-rate").innerHTML = "8.4525%";
-        document.getElementById("bus-total-pay-style").innerHTML = "等额本息";
-        document.getElementById("bus-total-principal").innerHTML = jsonData[0].dLonAmt;
-        document.getElementById("bus-total-balance").innerHTML = jsonData[0].dCurBal;
-        document.getElementById("bus-total-firstDate").innerHTML = jsonData[0].sLonDat;
-        document.getElementById("bus-total-endDate").innerHTML = jsonData[0].sExpDat;
-    }
 </script>
 <script type="text/javascript" src="data/business-loan-total.js"></script>
 

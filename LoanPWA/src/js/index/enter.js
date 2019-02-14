@@ -20,8 +20,6 @@ import { handleCarLoanTotalResponse } from "../data/car-loan-total";
 import { handleCarRepaymentPlanResponse } from "../data/car-repayment-plan";
 
 
-
-
 //因为webpack打包的时候不会去处理内嵌到html中的js代码，如果是低版本的系统（安卓4.4）会出现一些语法不支持的问题，比如let，() => {}等问题
 //webpack则会处理兼容这些问题
 
@@ -122,21 +120,22 @@ handleFundLoanTotalResponse((data) => {
 
     if (!data || data.length === 0) {
         //隐藏
-        document.getElementById("fund-total-div").style.display="none";
+        $("#fund-total-div").css({"display":"none"});
         return;
     }
 
     //去字符串后面的特殊字符
     data = data.replace(/\u0000/g, "");
     let jsonData = JSON.parse(data);
-    document.getElementById("fund-total-bank").innerHTML = jsonData.loanBank;
-    document.getElementById("fund-total-rate").innerHTML = jsonData.loanRate;
-    document.getElementById("fund-total-fine-rate").innerHTML = jsonData.punishRate;
-    document.getElementById("fund-total-pay-style").innerHTML = "等额本息";
-    document.getElementById("fund-total-principal").innerHTML = jsonData.loanAmount;
-    document.getElementById("fund-total-balance").innerHTML = jsonData.remainAmount;
-    document.getElementById("fund-total-firstDate").innerHTML = jsonData.loanBeginDate;
-    document.getElementById("fund-total-endDate").innerHTML = jsonData.loanEndDate;
+
+    $("#fund-total-bank").html(jsonData.loanBank);
+    $("#fund-total-rate").html(jsonData.loanRate);
+    $("#fund-total-fine-rate").html(jsonData.punishRate);
+    $("#fund-total-pay-style").html("等额本息");
+    $("#fund-total-principal").html(jsonData.loanAmount);
+    $("#fund-total-balance").html(jsonData.remainAmount);
+    $("#fund-total-firstDate").html(jsonData.loanBeginDate);
+    $("#fund-total-endDate").html(jsonData.loanEndDate);
 });
 
 handleFundRepaymentPlanResponse(() => {
@@ -149,29 +148,26 @@ handleCarLoanTotalResponse((data) => {
 
     if (!data || data.length === 0) {
         //隐藏
-        document.getElementById("car-total-div").style.display="none";
+        $("#car-total-div").css({"display":"none"});
         return;
     }
 
     //去字符串后面的特殊字符
     data = data.replace(/\u0000/g, "");
     let jsonData = JSON.parse(data).INFBDY.WCLNQLN1Z1[0];
-    document.getElementById("car-total-bank").innerHTML = "中国招商银行股份有限公司杭州深蓝支行";
-    document.getElementById("car-total-rate").innerHTML = jsonData.RATEXE;
-    document.getElementById("car-total-fine-rate").innerHTML = "暂无";
-    document.getElementById("car-total-pay-style").innerHTML = "等额本息";
-    document.getElementById("car-total-principal").innerHTML = jsonData.USDAMT;
-    document.getElementById("car-total-balance").innerHTML = jsonData.CPTSUM;
-    document.getElementById("car-total-firstDate").innerHTML = jsonData.BILUPD;
-    document.getElementById("car-total-endDate").innerHTML = jsonData.ENDDTE;
+    $("#car-total-bank").html("中国招商银行股份有限公司杭州深蓝支行");
+    $("#car-total-rate").html(jsonData.RATEXE);
+    $("#car-total-fine-rate").html("暂无");
+    $("#car-total-pay-style").html("等额本息");
+    $("#car-total-principal").html(jsonData.USDAMT);
+    $("#car-total-balance").html(jsonData.CPTSUM);
+    $("#car-total-firstDate").html(jsonData.BILUPD);
+    $("#car-total-endDate").html(jsonData.ENDDTE);
 });
 
 handleCarRepaymentPlanResponse(() => {
 
 });
-
-
-
 
 
 //.html()用为读取和修改元素的HTML标签

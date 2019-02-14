@@ -25,18 +25,16 @@ import { handleCarRepaymentPlanResponse } from "../data/car-repayment-plan";
 
 
 // 取回
-document.getElementById("secretKey").value = localStorage.getItem("myLoanSecretKey");
+$("#secretKey").val(localStorage.getItem("myLoanSecretKey"));
 
 document.getElementById("changeKey").onclick = function () {
     if (typeof(Storage) !== "undefined") {
         // 存储
-        localStorage.setItem("myLoanSecretKey", document.getElementById("secretKey").value);
+        localStorage.setItem("myLoanSecretKey", $("#secretKey").val());
     } else {
         document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
     }
 };
-
-
 
 //注册缓存
 if (navigator.serviceWorker != null) {

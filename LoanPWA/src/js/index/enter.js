@@ -207,9 +207,19 @@ handleBusinessRepaymentPlanResponse((data) => {
 
         $("#bus-total-pay-date").html("每月" + item.sDueDat.substring(6, 8) + "号");
 
-        businessBJ = item.dAmt;
-        businessLX = item.dInt;
-        businessDate = "每月" + item.sDueDat.substring(6, 8) + "号";
+        let nowMonth = getNowMonth();
+        if (item.sDueDat.indexOf(nowMonth) != -1) {
+            businessBJ = item.dAmt;
+            businessLX = item.dInt;
+            businessDate = item.sDueDat;
+        } else {
+            //还未还款,取第一个月的数据
+            if (i == 0) {
+                businessBJ = item.dAmt;
+                businessLX = item.dInt;
+                businessDate = item.sDueDat;
+            }
+        }
 
         if (i == 0) {
             //第一个日期
@@ -291,9 +301,20 @@ handleFundRepaymentPlanResponse((data) => {
 
         $("#fund-total-pay-date").html("每月" + item.refundDate.substring(6, 8) + "号");
 
-        fundBJ = item.defaultAmount;
-        fundLX = item.baseInterest;
-        fundDate = "每月" + item.refundDate.substring(6, 8) + "号";
+
+        let nowMonth = getNowMonth();
+        if (item.refundDate.indexOf(nowMonth) != -1) {
+            fundBJ = item.defaultAmount;
+            fundLX = item.baseInterest;
+            fundDate = item.refundDate;
+        } else {
+            //还未还款,取第一个月的数据
+            if (i == 0) {
+                fundBJ = item.defaultAmount;
+                fundLX = item.baseInterest;
+                fundDate = item.refundDate;
+            }
+        }
 
         if (i == 0) {
             //第一个日期
@@ -392,9 +413,20 @@ handleCarRepaymentPlanResponse((data) => {
 
         $("#car-total-pay-date").html("每月" + item.PAYDTE.substring(6, 8) + "号");
 
-        carBJ = item.CPTAMT;
-        carLX = item.INTAMT;
-        carDate = "每月" + item.PAYDTE.substring(6, 8) + "号";
+
+        let nowMonth = getNowMonth();
+        if (item.PAYDTE.indexOf(nowMonth) != -1) {
+            carBJ = item.CPTAMT;
+            carLX = item.INTAMT;
+            carDate = item.PAYDTE;
+        } else {
+            //还未还款,取第一个月的数据
+            if (i == 0) {
+                carBJ = item.CPTAMT;
+                carLX = item.INTAMT;
+                carDate = item.PAYDTE;
+            }
+        }
 
         if (i == 0) {
             //第一个日期
@@ -444,6 +476,12 @@ function changEncryptionDataToJson(data) {
     return jsonData;
 }
 
+//获取当前的月份-201903
+function getNowMonth() {
+    let today = getTodayDate(1);
+    let month = today.substring(0, 6);
+    return month;
+}
 
 //获取当前的日期
 function getTodayDate(format) {

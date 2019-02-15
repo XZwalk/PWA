@@ -19,7 +19,7 @@
 </div>
 
 <div class="list-item" style="margin-top: 10px" id="now-total-div">
-    <h2>当月计划</h2>
+    <h2>本月计划</h2>
     <table class="alt-rows-table" id="now-total-div-table">
         <tr>
             <th>项目</th>
@@ -27,22 +27,26 @@
             <th colspan="3">信息</th>
         </tr>
         <tr>
-            <!--纵向拆分为两个单元格-->
-            <td rowspan="2">商贷</td>
+            <!--纵向拆分为三个单元格-->
+            <td rowspan="3">商贷</td>
             <td>本金</td>
             <td id="now-bus-principal"></td>
-            <!--纵向合并两个单元格-->
-            <td rowspan="2" id="now-bus-total"></td>
+            <!--纵向合并三个单元格-->
+            <td rowspan="3" id="now-bus-total" class="yellow-font"></td>
         </tr>
         <tr>
             <td>利息</td>
             <td id="now-bus-interest"></td>
         </tr>
         <tr>
-            <td rowspan="2">公积金</td>
+            <td>扣款日</td>
+            <td id="now-bus-date" class="yellow-font"></td>
+        </tr>
+        <tr>
+            <td rowspan="3">公积金</td>
             <td>本金</td>
             <td id="now-fund-principal"></td>
-            <td rowspan="2" id="now-fund-total"></td>
+            <td rowspan="3" id="now-fund-total" class="yellow-font"></td>
         </tr>
         </tr>
         <tr>
@@ -50,19 +54,27 @@
             <td id="now-fund-interest"></td>
         </tr>
         <tr>
-            <td rowspan="2">车位贷</td>
+            <td>扣款日</td>
+            <td id="now-fund-date" class="yellow-font"></td>
+        </tr>
+        <tr>
+            <td rowspan="3">车位贷</td>
             <td>本金</td>
             <td id="now-car-principal"></td>
-            <td rowspan="2" id="now-car-total"></td>
+            <td rowspan="3" id="now-car-total" class="yellow-font"></td>
         </tr>
         <tr>
             <td>利息</td>
             <td id="now-car-interest"></td>
         </tr>
         <tr>
+            <td>扣款日</td>
+            <td id="now-car-date" class="yellow-font"></td>
+        </tr>
+        <tr>
             <td>总金额</td>
             <!--横向合并三个单元格-->
-            <td colspan="3" id="now-total"></td>
+            <td colspan="3" id="now-total" style="text-align: center" class="yellow-font"></td>
         </tr>
     </table>
 </div>

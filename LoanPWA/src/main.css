@@ -63,15 +63,20 @@ table.alt-rows-table td {
 
 /*奇数行*/
 .odd-row-color{
-    /*background-color:#FFCBB3;*/
+    background-color:#FFCBB3;
 }
 
 /*偶数行*/
 .even-row-color{
-    /*background-color:#FFF0AC;*/
+    background-color:#FFF0AC;
 }
 
 .red-font {
     color: #fe5d4e;
+    font-weight: bold;
+}
+
+.yellow-font {
+    color: #FF7F24;
     font-weight: bold;
 }

@@ -18,8 +18,53 @@
     <button id="changeKey">更新密匙</button>
 </div>
 
+<div class="list-item" style="margin-top: 10px" id="now-total-div">
+    <h2>当月计划</h2>
+    <table class="alt-rows-table" id="now-total-div-table">
+        <tr>
+            <th>项目</th>
+            <!--横向拆封为两个单元格-->
+            <th colspan="2">信息</th>
+        </tr>
+        <tr>
+            <!--纵向拆分为两个单元格-->
+            <td rowspan="2">商贷</td>
+            <td>本金</td>
+            <td id="now-bus-principal"></td>
+        </tr>
+        <tr>
+            <td>利息</td>
+            <td id="now-bus-interest"></td>
+        </tr>
+        <tr>
+            <td rowspan="2">公积金</td>
+            <td>本金</td>
+            <td id="now-fund-principal"></td>
+        </tr>
+        </tr>
+        <tr>
+            <td>利息</td>
+            <td id="now-fund-interest"></td>
+        </tr>
+        <tr>
+            <td rowspan="2">车位贷</td>
+            <td>本金</td>
+            <td id="now-car-principal"></td>
+        </tr>
+        <tr>
+            <td>利息</td>
+            <td id="now-car-interest"></td>
+        </tr>
+        <tr>
+            <td>总金额</td>
+            <!--横向合并两个单元格-->
+            <td colspan="2" id="now-total"></td>
+        </tr>
+    </table>
+</div>
 
-<div class="list-item" style="margin-top: 10px" id="bus-total-div">
+
+<div class="list-item" id="bus-total-div">
     <h2>商贷</h2>
     <table class="alt-rows-table" id="bus-total-div-table">
         <tr>

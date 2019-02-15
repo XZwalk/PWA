@@ -34,6 +34,9 @@ document.getElementById("changeKey").onclick = function () {
     } else {
         document.getElementById("result").innerHTML = "抱歉！您的浏览器不支持 Web Storage ...";
     }
+
+    //刷新当前网页
+    location.reload();
 };
 
 //注册缓存

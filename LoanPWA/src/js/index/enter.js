@@ -127,6 +127,12 @@ let carLX = "";
 let carDate = "";
 
 setTimeout(() => {
+
+    if (businessBJ.length === 0) {
+        $("#now-total-div").css({"display":"none"});
+        return;
+    }
+
     //等下面的数据都处理好了，再处理
     $("#now-bus-principal").html(businessBJ);
     $("#now-bus-interest").html(businessLX);

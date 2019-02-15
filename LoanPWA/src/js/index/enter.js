@@ -146,6 +146,7 @@ handleBusinessRepaymentPlanResponse((data) => {
     if (!data || data.length === 0) {
         $("#bus-total-balance").html("52万");
         $("#bus-total-balance-already").html("0.00");
+        $("#bus-total-interest-already").html("0.00");
         $("#bus-total-interest-balance").html("55.88万");
         return;
     }
@@ -171,6 +172,7 @@ handleBusinessRepaymentPlanResponse((data) => {
                 //还未开始还款
                 $("#bus-total-balance").html("52万");
                 $("#bus-total-balance-already").html("0.00");
+                $("#bus-total-interest-already").html("0.00");
                 $("#bus-total-interest-balance").html("55.88万");
                 return;
             }
@@ -209,14 +211,64 @@ handleFundLoanTotalResponse((data) => {
     $("#fund-total-rate").html(parseFloat(jsonData.loanRate) * 100 + "%");
     $("#fund-total-fine-rate").html(parseFloat(jsonData.punishRate) * 100 + "%");
     $("#fund-total-pay-style").html("等额本息");
-    $("#fund-total-principal").html(jsonData.loanAmount);
-    $("#fund-total-balance").html(jsonData.remainAmount);
+    $("#fund-total-principal").html(parseFloat(jsonData.loanAmount) / 10000 + "万");
+    $("#fund-total-interest").html("36.84万");
     $("#fund-total-firstDate").html(jsonData.loanBeginDate);
     $("#fund-total-endDate").html(jsonData.loanEndDate);
 });
 
-handleFundRepaymentPlanResponse(() => {
+handleFundRepaymentPlanResponse((data) => {
+    data = changEncryptionDataToJson(data);
+    if (!data || data.length === 0) {
+        $("#fund-total-balance").html("65万");
+        $("#fund-total-balance-already").html("0.00");
+        $("#fund-total-interest-already").html("0.00");
+        $("#fund-total-interest-balance").html("36.84万");
+        return;
+    }
 
+    // let today = getTodayDate(1);
+    let today = "20190301";
+    let alreadyPayInterest = 0;
+    let alreadyPayAmount = 0;
+
+    data = data.loanPlanList;
+
+    for (let i = 0; i < data.length; i++) {
+        //{
+        // 		"refundDate": "20190320",
+        // 		"defaultAmount": "1068.42",
+        // 		"baseInterest": "2757.99",
+        // 		"defaultInterest": "0.00",
+        // 		"refundTotal": "3826.41"
+        // 	}
+        let item = data[i];
+
+        if (i == 0) {
+            //第一个日期
+            if (today < item.refundDate) {
+                //还未开始还款
+                $("#fund-total-balance").html("65万");
+                $("#fund-total-balance-already").html("0.00");
+                $("#fund-total-interest-already").html("0.00");
+                $("#fund-total-interest-balance").html("36.84万");
+                return;
+            }
+        } else {
+            //开始还款
+            if (today < item.refundDate) {
+                $("#fund-total-balance").html((65 * 10000 - alreadyPayAmount).toFixed(2));
+                $("#fund-total-balance-already").html(alreadyPayAmount);
+
+                $("#fund-total-interest-balance").html(55.88 * 10000 - alreadyPayInterest);
+                $("#fund-total-interest-already").html(alreadyPayInterest);
+                return;
+            }
+        }
+
+        alreadyPayInterest += parseFloat(item.baseInterest);
+        alreadyPayAmount += parseFloat(item.defaultAmount);
+    }
 });
 
 //车位贷总览

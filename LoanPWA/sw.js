@@ -1,6 +1,6 @@
 //当页面发生修改时, 要同时对 sw.js 文件进行一次修改。
 //保证文件发生改变, 同时缓存的名称也变改变了
-let PRECACHE = 'loan-pwa-1.2';
+let PRECACHE = 'loan-pwa-1.3';
 let RUNTIME = 'runtime';
 
 // list the files you want cached by the service worker

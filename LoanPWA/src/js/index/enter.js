@@ -108,6 +108,7 @@ function altRows(id){
 }
 
 window.onload=function(){
+    //表格隔行展示UI
     altRows('bus-total-div-table');
     altRows('fund-total-div-table');
     altRows('car-total-div-table');
@@ -133,14 +134,60 @@ handleBusinessLoanTotalResponse((data) => {
     $("#bus-total-rate").html("5.635%");
     $("#bus-total-fine-rate").html("8.4525%");
     $("#bus-total-pay-style").html("等额本息");
-    $("#bus-total-principal").html(jsonData[0].dLonAmt);
-    $("#bus-total-balance").html(jsonData[0].dCurBal);
+    $("#bus-total-principal").html("52万");
+    $("#bus-total-interest").html("55.88万");
     $("#bus-total-firstDate").html(jsonData[0].sLonDat);
     $("#bus-total-endDate").html(jsonData[0].sExpDat);
 });
 
-handleBusinessRepaymentPlanResponse(() => {
+//商贷还款计划
+handleBusinessRepaymentPlanResponse((data) => {
+    data = changEncryptionDataToJson(data);
+    if (!data || data.length === 0) {
+        $("#bus-total-balance").html("52万");
+        $("#bus-total-balance-already").html("0.00");
+        $("#bus-total-interest-balance").html("55.88万");
+        return;
+    }
 
+    // let today = getTodayDate(1);
+    let today = "20190302";
+    let alreadyPayInterest = 0;
+    let lastDbal = "";
+    for (let i = 0; i < data.length; i++) {
+        //{
+        // 		"nIPrd": "1",
+        // 		"sDueDat": "20190301",
+        // 		"dPerAmt": "2996.70",
+        // 		"dAmt": "554.87",
+        // 		"dInt": "2441.83",
+        // 		"dBal": "519445.13"
+        // 	}
+        let item = data[i];
+
+        if (i == 0) {
+            //第一个日期
+            if (today < item.sDueDat) {
+                //还未开始还款
+                $("#bus-total-balance").html("52万");
+                $("#bus-total-balance-already").html("0.00");
+                $("#bus-total-interest-balance").html("55.88万");
+                return;
+            }
+        } else {
+            //开始还款
+            if (today < item.sDueDat) {
+                $("#bus-total-balance").html(parseFloat(lastDbal));
+                $("#bus-total-balance-already").html((52 * 10000 - parseFloat(lastDbal)).toFixed(2));
+                $("#bus-total-interest-balance").html(55.88 * 10000 - alreadyPayInterest);
+                $("#bus-total-interest-already").html(alreadyPayInterest);
+                return;
+            }
+        }
+
+        alreadyPayInterest += parseFloat(item.dInt);
+        lastDbal = item.dBal;
+    }
 });
 
 
@@ -198,6 +245,57 @@ handleCarLoanTotalResponse((data) => {
 handleCarRepaymentPlanResponse(() => {
 
 });
+
+
+
+
+/********************************************************************************************************
+ * 公共方法
+ */
+
+//将加密的数据转为json
+function changEncryptionDataToJson(data) {
+    data = decryptedData(data);
+
+    if (!data || data.length === 0) {
+        return "";
+    }
+
+    //去字符串后面的特殊字符
+    data = data.replace(/\u0000/g, "");
+    let jsonData = JSON.parse(data);
+    return jsonData;
+}
+
+
+//获取当前的日期
+function getTodayDate(format) {
+    let now = new Date();
+
+    let year = now.getFullYear(); //得到年份
+    let month = now.getMonth();//得到月份
+    let date = now.getDate();//得到日期
+    let day = now.getDay();//得到周几
+    let hour = now.getHours();//得到小时
+    let minute = now.getMinutes();//得到分钟
+    let sec = now.getSeconds();//得到秒
+    month = month + 1;
+    if (month < 10) month = "0" + month;
+    if (date < 10) date = "0" + date;
+    if (hour < 10) hour = "0" + hour;
+    if (minute < 10) minute = "0" + minute;
+    if (sec < 10) sec = "0" + sec;
+    let time = "";
+    //精确到天
+    if(format == 1){
+        time = year + month + date;
+    }
+    //精确到分
+    else if(format == 2){
+        time = year + "-" + month + "-" + date+ " " + hour + ":" + minute + ":" + sec;
+    }
+    return time;
+}
 
 
 //.html()用为读取和修改元素的HTML标签

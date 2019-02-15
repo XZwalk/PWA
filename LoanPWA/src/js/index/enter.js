@@ -37,6 +37,10 @@ document.getElementById("changeKey").onclick = function () {
 };
 
 //注册缓存
+//一定要注意，server.js只能放到项目根目录中，放到其他目录会导致报错
+//Site cannot be installed: no matching service worker detected.
+// You may need to reload the page, or check that the service worker for the current page
+// also controls the start URL from the manifest
 if (navigator.serviceWorker != null) {
     navigator.serviceWorker.register('/PWA/LoanPWA/sw.js')
         .then(function (registration) {

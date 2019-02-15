@@ -9,6 +9,7 @@ import '../../main.css';
 
 //安装之后这边还要引入
 import CryptoJS from 'crypto-js/crypto-js';
+import $ from '../tool/jquery.min'
 
 import { handleBusinessLoanTotalResponse } from "../data/business-loan-total";
 import { handleBusinessRepaymentPlanResponse } from "../data/business-repayment-plan";

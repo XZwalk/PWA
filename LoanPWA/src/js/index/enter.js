@@ -115,6 +115,32 @@ window.onload=function(){
 };
 
 
+//本月计划
+let businessBJ = "";
+let businessLX = "";
+let fundBJ = "";
+let fundLX = "";
+let carBJ = "";
+let carLX = "";
+
+setTimeout(() => {
+    //等下面的数据都处理好了，再处理
+    $("#now-bus-principal").html(businessBJ);
+    $("#now-bus-interest").html(businessLX);
+    $("#now-bus-total").html((parseFloat(businessBJ) + parseFloat(businessLX)).toFixed(2));
+
+    $("#now-fund-principal").html(fundBJ);
+    $("#now-fund-interest").html(fundLX);
+    $("#now-fund-total").html((parseFloat(fundBJ) + parseFloat(fundLX)).toFixed(2));
+
+    $("#now-car-principal").html(carBJ);
+    $("#now-car-interest").html(carLX);
+    $("#now-car-total").html((parseFloat(carBJ) + parseFloat(carLX)).toFixed(2));
+
+    $("#now-total").html((parseFloat(businessBJ) + parseFloat(businessLX) + parseFloat(fundBJ) + parseFloat(fundLX) + parseFloat(carBJ) + parseFloat(carLX)).toFixed(2));
+
+}, 1000);
+
 
 //商贷总览
 handleBusinessLoanTotalResponse((data) => {
@@ -167,6 +193,9 @@ handleBusinessRepaymentPlanResponse((data) => {
         let item = data[i];
 
         $("#bus-total-pay-date").html("每月" + item.sDueDat.substring(6, 8) + "号");
+
+        businessBJ = item.dAmt;
+        businessLX = item.dInt;
 
         if (i == 0) {
             //第一个日期
@@ -247,6 +276,9 @@ handleFundRepaymentPlanResponse((data) => {
         let item = data[i];
 
         $("#fund-total-pay-date").html("每月" + item.refundDate.substring(6, 8) + "号");
+
+        fundBJ = item.defaultAmount;
+        fundLX = item.baseInterest;
 
         if (i == 0) {
             //第一个日期
@@ -344,6 +376,9 @@ handleCarRepaymentPlanResponse((data) => {
         let item = data[i];
 
         $("#car-total-pay-date").html("每月" + item.PAYDTE.substring(6, 8) + "号");
+
+        carBJ = item.CPTAMT;
+        carLX = item.INTAMT;
 
         if (i == 0) {
             //第一个日期

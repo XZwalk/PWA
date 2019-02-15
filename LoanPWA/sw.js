@@ -1,5 +1,5 @@
-var PRECACHE = 'loan-pwa-0.1';
-var RUNTIME = 'runtime';
+let PRECACHE = 'loan-pwa-0.1';
+let RUNTIME = 'runtime';
 
 // list the files you want cached by the service worker
 PRECACHE_URLS = [

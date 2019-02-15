@@ -70,3 +70,8 @@ table.alt-rows-table td {
 .even-row-color{
     /*background-color:#FFF0AC;*/
 }
+
+.red-font {
+    color: #fe5d4e;
+    font-weight: bold;
+}

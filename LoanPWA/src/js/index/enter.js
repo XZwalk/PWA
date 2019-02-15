@@ -134,8 +134,8 @@ handleFundLoanTotalResponse((data) => {
     let jsonData = JSON.parse(data);
 
     $("#fund-total-bank").html(jsonData.loanBank);
-    $("#fund-total-rate").html(jsonData.loanRate);
-    $("#fund-total-fine-rate").html(jsonData.punishRate);
+    $("#fund-total-rate").html(parseFloat(jsonData.loanRate) * 100 + "%");
+    $("#fund-total-fine-rate").html(parseFloat(jsonData.punishRate) * 100 + "%");
     $("#fund-total-pay-style").html("等额本息");
     $("#fund-total-principal").html(jsonData.loanAmount);
     $("#fund-total-balance").html(jsonData.remainAmount);
@@ -161,7 +161,7 @@ handleCarLoanTotalResponse((data) => {
     data = data.replace(/\u0000/g, "");
     let jsonData = JSON.parse(data).INFBDY.WCLNQLN1Z1[0];
     $("#car-total-bank").html("中国招商银行股份有限公司杭州深蓝支行");
-    $("#car-total-rate").html(jsonData.RATEXE);
+    $("#car-total-rate").html(parseFloat(jsonData.RATEXE) * 1 + "%");
     $("#car-total-fine-rate").html("暂无");
     $("#car-total-pay-style").html("等额本息");
     $("#car-total-principal").html(jsonData.USDAMT);

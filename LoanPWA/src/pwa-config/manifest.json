@@ -1,6 +1,6 @@
 {
   "name": "贷款信息",
-  "short_name": "祥子贷款信息",
+  "short_name": "贷款信息",
   "display": "standalone",
   "start_url": "/PWA/LoanPWA/dist/",
   "theme_color": "#8888ff",

@@ -288,14 +288,82 @@ handleCarLoanTotalResponse((data) => {
     $("#car-total-rate").html(parseFloat(jsonData.RATEXE) * 1 + "%");
     $("#car-total-fine-rate").html("暂无");
     $("#car-total-pay-style").html("等额本息");
-    $("#car-total-principal").html(jsonData.USDAMT);
+    $("#car-total-principal").html(parseFloat(jsonData.USDAMT) / 10000 + "万");
     $("#car-total-balance").html(jsonData.CPTSUM);
     $("#car-total-firstDate").html(jsonData.BILUPD);
     $("#car-total-endDate").html(jsonData.ENDDTE);
 });
 
-handleCarRepaymentPlanResponse(() => {
+handleCarRepaymentPlanResponse((data) => {
+    data = changEncryptionDataToJson(data);
+    if (!data || data.length === 0) {
+        $("#car-total-balance").html("16万");
+        $("#car-total-balance-already").html("0.00");
+        $("#car-total-interest-already").html("0.00");
+        $("#car-total-interest-balance").html("0.00");
+        return;
+    }
 
+    let today = getTodayDate(1);
+    let alreadyPayInterest = 0;
+    let alreadyPayAmount = 0;
+
+    data = data.INFBDY.WCPAYPLNZ1;
+
+    //获取总利息
+    let totalInterest = 0;
+    for (let i = 0; i < data.length; i++) {
+        let item = data[i];
+        totalInterest += parseFloat(item.INTAMT);
+    }
+    $("#car-total-interest").html(totalInterest.toFixed(2));
+
+    for (let i = 0; i < data.length; i++) {
+        //{
+        // 			"DAYDAY": "28",
+        // 			"LONNBR": "8180927765006",
+        // 			"SEQSEQ": "5",
+        // 			"RCDSTS": "",
+        // 			"TMSFLG": "Y",
+        // 			"PAYSUM": "3183.31",
+        // 			"CRTTIM": "145211",
+        // 			"CRTDTE": "20181024",
+        // 			"BPLSEQ": "1",
+        // 			"BALAMT": "148749.25",
+        // 			"EXERAT": "7.2000000",
+        // 			"TMSTMS": "5",
+        // 			"INTALW": "0.00",
+        // 			"CPTAMT": "2277.15",
+        // 			"INTAMT": "906.16",
+        // 			"PAYDTE": "20190319"
+        // 		}
+        let item = data[i];
+
+        if (i == 0) {
+            //第一个日期
+            if (today < item.PAYDTE) {
+                //还未开始还款
+                $("#car-total-balance").html("16万");
+                $("#car-total-balance-already").html("0.00");
+                $("#car-total-interest-already").html("0.00");
+                $("#car-total-interest-balance").html(totalInterest);
+                return;
+            }
+        } else {
+            //开始还款
+            if (today < item.PAYDTE) {
+                $("#car-total-balance").html((16 * 10000 - alreadyPayAmount).toFixed(2));
+                $("#car-total-balance-already").html(alreadyPayAmount.toFixed(2));
+
+                $("#car-total-interest-balance").html((totalInterest - alreadyPayInterest).toFixed(2));
+                $("#car-total-interest-already").html(alreadyPayInterest.toFixed(2));
+                return;
+            }
+        }
+
+        alreadyPayInterest += parseFloat(item.INTAMT);
+        alreadyPayAmount += parseFloat(item.CPTAMT);
+    }
 });
 
 

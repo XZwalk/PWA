@@ -166,6 +166,8 @@ handleBusinessRepaymentPlanResponse((data) => {
         // 	}
         let item = data[i];
 
+        $("#bus-total-pay-date").html("每月" + item.sDueDat.substring(6, 8) + "号");
+
         if (i == 0) {
             //第一个日期
             if (today < item.sDueDat) {
@@ -243,6 +245,8 @@ handleFundRepaymentPlanResponse((data) => {
         // 		"refundTotal": "3826.41"
         // 	}
         let item = data[i];
+
+        $("#fund-total-pay-date").html("每月" + item.refundDate.substring(6, 8) + "号");
 
         if (i == 0) {
             //第一个日期
@@ -338,6 +342,8 @@ handleCarRepaymentPlanResponse((data) => {
         // 			"PAYDTE": "20190319"
         // 		}
         let item = data[i];
+
+        $("#car-total-pay-date").html("每月" + item.PAYDTE.substring(6, 8) + "号");
 
         if (i == 0) {
             //第一个日期

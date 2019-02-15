@@ -189,8 +189,8 @@ handleBusinessRepaymentPlanResponse((data) => {
         return;
     }
 
-    // let today = getTodayDate(1);
-    let today = "20190302";
+    let today = getTodayDate(1);
+    // let today = "20190302";
     let alreadyPayInterest = 0;
     let lastDbal = "";
     for (let i = 0; i < data.length; i++) {
@@ -271,8 +271,8 @@ handleFundRepaymentPlanResponse((data) => {
         return;
     }
 
-    // let today = getTodayDate(1);
-    let today = "20190301";
+    let today = getTodayDate(1);
+    // let today = "20190301";
     let alreadyPayInterest = 0;
     let alreadyPayAmount = 0;
 

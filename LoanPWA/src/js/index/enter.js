@@ -38,7 +38,7 @@ document.getElementById("changeKey").onclick = function () {
 
 //注册缓存
 if (navigator.serviceWorker != null) {
-    navigator.serviceWorker.register('/PWA/LoanPWA/src/pwa-config/sw.js')
+    navigator.serviceWorker.register('/PWA/LoanPWA/sw.js')
         .then(function (registration) {
             console.log('Registered events at scope: ', registration.scope);
         });

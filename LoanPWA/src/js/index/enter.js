@@ -90,6 +90,31 @@ function decryptedData(aesData) {
 }
 
 
+//表格
+function altRows(id){
+    if(document.getElementsByTagName){
+
+        var table = document.getElementById(id);
+        var rows = table.getElementsByTagName("tr");
+
+        for(let i = 0; i < rows.length; i++){
+            if(i % 2 == 0){
+                rows[i].className = "even-row-color";
+            }else{
+                rows[i].className = "odd-row-color";
+            }
+        }
+    }
+}
+
+window.onload=function(){
+    altRows('bus-total-div-table');
+    altRows('fund-total-div-table');
+    altRows('car-total-div-table');
+};
+
+
+
 //商贷总览
 handleBusinessLoanTotalResponse((data) => {
     data = decryptedData(data);

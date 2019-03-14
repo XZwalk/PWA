@@ -3,6 +3,7 @@
 
 const tinify = require("tinify");
 
+//一个月只能使用500次
 tinify.key = "CmnmCSfhxcgK9cRwZmwSk4yfmTVp026S"; // 自行注册
 
 let source = tinify.fromFile("large.png");

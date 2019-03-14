@@ -59,6 +59,12 @@ function getDelayAllData(completeBlock) {
 function createAllTables(allData) {
     let main = document.getElementById("myBody");
 
+    let weddingTitle = document.createElement('h1');
+    weddingTitle.style.color = "#fe5d4e";
+    weddingTitle.style.marginTop = "30px";
+    weddingTitle.innerHTML = "婚礼统计";
+    main.appendChild(weddingTitle);
+
     let myTotalAmount = getTotalAmount(allData, "myData");
     let myTable = getTable("我的", ["序号", "姓名", "金额", "备注"], allData.weddingData.myData, myTotalAmount);
     main.appendChild(myTable);
@@ -73,6 +79,16 @@ function createAllTables(allData) {
 
     let weddingTotalTable = getTable("婚礼总计", ["总金额", parseInt(myTotalAmount) + parseInt(myWifeTotalAmount) + parseInt(otherData.amount)]);
     main.appendChild(weddingTotalTable);
+
+
+    let kidTitle = document.createElement('h1');
+    kidTitle.style.color = "#fe5d4e";
+    kidTitle.style.marginTop = "30px";
+    kidTitle.innerHTML = "小孩子礼金统计";
+    main.appendChild(kidTitle);
+
+    let myTable_kid = getTable("我的", ["序号", "姓名", "金额", "备注"], allData.kidData.myData);
+    main.appendChild(myTable_kid);
 }
 
 function getWeddingBottomTables(data, totalAmount) {

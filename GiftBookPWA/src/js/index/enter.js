@@ -66,6 +66,35 @@ function createAllTables(allData) {
     let myWifeTotalAmount = getTotalAmount(allData, "myWifeData");
     let myWifeTable = getTable("老婆的", ["序号", "姓名", "金额", "备注"], allData.weddingData.myWifeData, myWifeTotalAmount);
     main.appendChild(myWifeTable);
+
+    let otherData = allData.weddingData.otherData[0];
+    let otherTable = getTable("其他", [otherData.name, otherData.amount]);
+    main.appendChild(otherTable);
+
+    let weddingTotalTable = getTable("婚礼总计", ["总金额", parseInt(myTotalAmount) + parseInt(myWifeTotalAmount) + parseInt(otherData.amount)]);
+    main.appendChild(weddingTotalTable);
+}
+
+function getWeddingBottomTables(data, totalAmount) {
+    let div = document.createElement('div');
+    div.style.marginTop = "50px";
+
+    let h2 = document.createElement('h2');
+    h2.innerHTML = "其他";
+    div.appendChild(h2);
+
+    let table = document.createElement('table');
+    table.className = "alt-rows-table";
+    div.appendChild(table);
+
+    let tr = document.createElement('tr');
+    tr.innerHTML = "";
+    table.appendChild(tr);
+
+    let tableTitle = tableTitleAry[i];
+    let th = document.createElement('th');
+    th.innerHTML = tableTitle;
+    tr.appendChild(th);
 }
 
 
@@ -82,6 +111,15 @@ function getTotalAmount(allData, key) {
 }
 
 function getTable(title, tableTitleAry, tableListAry, totalAmount) {
+
+    if (!tableTitleAry) {
+        tableTitleAry = [];
+    }
+
+    if (!tableListAry) {
+        tableListAry = [];
+    }
+
     let div = document.createElement('div');
     div.style.marginTop = "50px";
 
@@ -141,21 +179,22 @@ function getTable(title, tableTitleAry, tableListAry, totalAmount) {
         row.appendChild(markCell);
     }
 
+    if (parseInt(totalAmount) > 0) {
+        let row = document.createElement('tr');
+        table.appendChild(row);
 
-    let row = document.createElement('tr'); //创建行
-    table.appendChild(row);
+        row.className = "odd-row-color";
 
-    row.className = "odd-row-color";
+        let nameCell = document.createElement('td');
+        nameCell.innerHTML = "总金额";
+        row.appendChild(nameCell);
 
-    let nameCell = document.createElement('td');
-    nameCell.innerHTML = "总金额";
-    row.appendChild(nameCell);
-
-    let amountCell1 = document.createElement('td');
-    //不能将s设置成小写的,否则失效
-    amountCell1.colSpan = "3";
-    amountCell1.innerHTML = totalAmount;
-    row.appendChild(amountCell1);
+        let amountCell1 = document.createElement('td');
+        //不能将s设置成小写的,否则失效
+        amountCell1.colSpan = "3";
+        amountCell1.innerHTML = totalAmount;
+        row.appendChild(amountCell1);
+    }
 
     return div;
 }

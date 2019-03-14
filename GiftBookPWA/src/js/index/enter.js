@@ -40,31 +40,38 @@ if (navigator.serviceWorker != null) {
         });
 }
 
-setTimeout(() => {
-    let allData = null;
-    if (window.zxData) {
-        allData = JSON.parse(window.zxData);
-    }
 
+getDelayAllData(() => {
+    let allData = JSON.parse(window.zxData);
     if (!allData) return;
-
     createAllTables(allData);
+});
 
-}, 1000);
-
+function getDelayAllData(completeBlock) {
+    let timeRepeat = window.setInterval(() => {
+        if (window.zxData) {
+            completeBlock();
+            window.clearInterval(timeRepeat);
+        }
+    }, 100);
+}
 
 function createAllTables(allData) {
-    let myTotalAmount = getMyTotalAmount(allData);
-    let myTable = getTable("我的", ["序号", "姓名", "金额", "备注"], allData.weddingData.myData, myTotalAmount);
-
     let main = document.getElementById("myBody");
+
+    let myTotalAmount = getTotalAmount(allData, "myData");
+    let myTable = getTable("我的", ["序号", "姓名", "金额", "备注"], allData.weddingData.myData, myTotalAmount);
     main.appendChild(myTable);
+
+    let myWifeTotalAmount = getTotalAmount(allData, "myWifeData");
+    let myWifeTable = getTable("老婆的", ["序号", "姓名", "金额", "备注"], allData.weddingData.myWifeData, myWifeTotalAmount);
+    main.appendChild(myWifeTable);
 }
 
 
-function getMyTotalAmount(allData) {
+function getTotalAmount(allData, key) {
     let weddingData = allData.weddingData ? allData.weddingData : {};
-    let handleAry = weddingData.myData ? weddingData.myData : [];
+    let handleAry = weddingData[key] ? weddingData[key] : [];
     let totalAmount = 0;
     for (let i = 0; i < handleAry.length; i++) {
         let item = handleAry[i];
@@ -74,10 +81,9 @@ function getMyTotalAmount(allData) {
     return totalAmount;
 }
 
-
-
 function getTable(title, tableTitleAry, tableListAry, totalAmount) {
     let div = document.createElement('div');
+    div.style.marginTop = "50px";
 
     let h2 = document.createElement('h2');
     h2.innerHTML = title;
@@ -124,7 +130,7 @@ function getTable(title, tableTitleAry, tableListAry, totalAmount) {
         row.appendChild(amountCell);
 
         let markCell = document.createElement('td');
-
+        markCell.style.color = "#fe5d4e";
         let markInfo = "";
         if (parseInt(tableListDic.state) === 1) {
             markInfo = "";

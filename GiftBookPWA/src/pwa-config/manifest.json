@@ -1,6 +1,6 @@
 {
-  "name": "贷款信息",
-  "short_name": "贷款信息",
+  "name": "礼金信息",
+  "short_name": "礼金信息",
   "display": "standalone",
   "start_url": "/PWA/GiftBookPWA/dist/",
   "theme_color": "#8888ff",

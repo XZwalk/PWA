@@ -32,7 +32,7 @@ document.getElementById("changeKey").onclick = function () {
 // You may need to reload the page, or check that the service worker for the current page
 // also controls the start URL from the manifest
 if (navigator.serviceWorker != null) {
-    navigator.serviceWorker.register('/PWA/GiftBookPWA/sw.js')
+    navigator.serviceWorker.register('/PWA/StudentDataPWA/sw.js')
         .then(function (registration) {
             console.log('Registered events at scope: ', registration.scope);
         });

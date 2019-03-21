@@ -3,8 +3,7 @@
  */
 
 //适配手机屏幕布局的
-import 'ijijin_builder/stylebuild/lib/mobile.less';
-
+// import 'ijijin_builder/stylebuild/lib/mobile.less';
 
 //安装之后这边还要引入
 import $ from '../tool/jquery.min'

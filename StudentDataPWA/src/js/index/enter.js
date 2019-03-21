@@ -5,7 +5,6 @@
 //适配手机屏幕布局的
 import 'ijijin_builder/stylebuild/lib/mobile.less';
 
-import '../../main.css';
 
 //安装之后这边还要引入
 import $ from '../tool/jquery.min'
@@ -40,11 +39,12 @@ if (navigator.serviceWorker != null) {
         });
 }
 
+let allData = "";
 
 getDelayAllData(() => {
-    let allData = JSON.parse(window.zxData);
+    allData = JSON.parse(window.zxData);
     if (!allData) return;
-    createAllTables(allData);
+    handleData(allData);
 });
 
 function getDelayAllData(completeBlock) {
@@ -56,164 +56,246 @@ function getDelayAllData(completeBlock) {
     }, 100);
 }
 
-function createAllTables(allData) {
-    let main = document.getElementById("myBody");
 
-    let weddingTitle = document.createElement('h1');
-    weddingTitle.style.color = "#fe5d4e";
-    weddingTitle.style.marginTop = "30px";
-    weddingTitle.innerHTML = "婚礼统计";
-    main.appendChild(weddingTitle);
-
-    let myTotalAmount = getTotalAmount(allData, "myData");
-    let myTable = getTable("我的", ["序号", "姓名", "金额", "备注"], allData.weddingData.myData, myTotalAmount);
-    main.appendChild(myTable);
-
-    let myWifeTotalAmount = getTotalAmount(allData, "myWifeData");
-    let myWifeTable = getTable("老婆的", ["序号", "姓名", "金额", "备注"], allData.weddingData.myWifeData, myWifeTotalAmount);
-    main.appendChild(myWifeTable);
-
-    let otherData = allData.weddingData.otherData[0];
-    let otherTable = getTable("其他", [otherData.name, otherData.amount]);
-    main.appendChild(otherTable);
-
-    let weddingTotalTable = getTable("婚礼总计", ["总金额", parseInt(myTotalAmount) + parseInt(myWifeTotalAmount) + parseInt(otherData.amount)]);
-    main.appendChild(weddingTotalTable);
-
-
-    let kidTitle = document.createElement('h1');
-    kidTitle.style.color = "#fe5d4e";
-    kidTitle.style.marginTop = "30px";
-    kidTitle.innerHTML = "小孩子礼金统计";
-    main.appendChild(kidTitle);
-
-    let myTable_kid = getTable("我的", ["序号", "姓名", "金额", "备注"], allData.kidData.myData);
-    main.appendChild(myTable_kid);
-}
-
-function getWeddingBottomTables(data, totalAmount) {
-    let div = document.createElement('div');
-    div.style.marginTop = "50px";
-
-    let h2 = document.createElement('h2');
-    h2.innerHTML = "其他";
-    div.appendChild(h2);
-
-    let table = document.createElement('table');
-    table.className = "alt-rows-table";
-    div.appendChild(table);
-
-    let tr = document.createElement('tr');
-    tr.innerHTML = "";
-    table.appendChild(tr);
-
-    let tableTitle = tableTitleAry[i];
-    let th = document.createElement('th');
-    th.innerHTML = tableTitle;
-    tr.appendChild(th);
+function handleData(allData) {
+    for (let key in allData) {
+        createMonthButton(key);
+    }
 }
 
 
-function getTotalAmount(allData, key) {
-    let weddingData = allData.weddingData ? allData.weddingData : {};
-    let handleAry = weddingData[key] ? weddingData[key] : [];
-    let totalAmount = 0;
-    for (let i = 0; i < handleAry.length; i++) {
-        let item = handleAry[i];
-        totalAmount = totalAmount + parseInt(item.amount);
-    }
+function createMonthButton(month) {
+    let monthDiv = document.getElementById("div_month");
 
-    return totalAmount;
+    let div = document.createElement("div");
+    div.style.marginTop = "10px";
+    let button = document.createElement("button");
+    button.innerHTML = month;
+    button.style.backgroundColor = "gray";
+    button.style.height = "30px";
+    button.style.width = "80px";
+    button.id = month;
+    button.onclick = monthButtonClick;
+    div.appendChild(button);
+    monthDiv.appendChild(div);
 }
 
-function getTable(title, tableTitleAry, tableListAry, totalAmount) {
+function monthButtonClick() {
+    handleContent(this.id);
+}
 
-    if (!tableTitleAry) {
-        tableTitleAry = [];
+function handleContent(month) {
+
+    let content = document.getElementById("div_content");
+    content.innerHTML = "";
+
+    let monthData = allData[month];
+
+    let allExtendClassAry = monthData["allExtendClassAry"];
+    let allDeadSleepAry = monthData["allDeadSleepAry"];
+    let allAuditionAry = monthData["allAuditionAry"];
+
+    // div_content
+    let template = document.querySelector('#div_content_template').content;
+
+    let extendClassTable = template.getElementById('extendClassTable');
+    extendClassTable.innerHTML = "";
+    for(let i = 0;i < allExtendClassAry.length; i++){
+        let trow = getExtendClassDataRow(allExtendClassAry[i], i); //定义一个方法,返回tr数据
+        extendClassTable.appendChild(trow);
     }
 
-    if (!tableListAry) {
-        tableListAry = [];
+    let deadSleepTable = template.getElementById('deadSleepTable');
+    deadSleepTable.innerHTML = "";
+    for(let i = 0;i < allDeadSleepAry.length; i++){
+        let trow = getDeadSleepDataRow(allDeadSleepAry[i], i); //定义一个方法,返回tr数据
+        deadSleepTable.appendChild(trow);
     }
 
-    let div = document.createElement('div');
-    div.style.marginTop = "50px";
+    let auditionTable = template.getElementById('auditionTable');
+    auditionTable.innerHTML = "";
+    for(let i = 0;i < allAuditionAry.length; i++){
+        let trow = getAuditionDataRow(allAuditionAry[i], i); //定义一个方法,返回tr数据
+        auditionTable.appendChild(trow);
 
-    let h2 = document.createElement('h2');
-    h2.innerHTML = title;
-    div.appendChild(h2);
-
-    let table = document.createElement('table');
-    table.className = "alt-rows-table";
-    div.appendChild(table);
-
-    let tr = document.createElement('tr');
-    tr.innerHTML = "";
-    table.appendChild(tr);
-
-    //创建表头
-    for (let i = 0; i < tableTitleAry.length; i++) {
-        let tableTitle = tableTitleAry[i];
-        let th = document.createElement('th');
-        th.innerHTML = tableTitle;
-        tr.appendChild(th);
-    }
-
-
-    for (let i = 0; i < tableListAry.length; i++) {
-        let tableListDic = tableListAry[i];
-        let row = document.createElement('tr'); //创建行
-        table.appendChild(row);
-
-        if(i % 2 == 0){
-            row.className = "even-row-color";
+        let rowColor = "";
+        if(i % 2 === 0){
+            rowColor = "#FFFFFF";
         }else{
-            row.className = "odd-row-color";
+            rowColor = "#FFF0AC";
         }
 
-        let indexCell = document.createElement('td');
-        indexCell.innerHTML = i + 1;
-        row.appendChild(indexCell);
-
-        let nameCell = document.createElement('td');
-        nameCell.innerHTML = tableListDic.name;
-        row.appendChild(nameCell);
-
-        let amountCell = document.createElement('td');
-        amountCell.innerHTML = tableListDic.amount;
-        row.appendChild(amountCell);
-
-        let markCell = document.createElement('td');
-        markCell.style.color = "#fe5d4e";
-        let markInfo = "";
-        if (parseInt(tableListDic.state) === 1) {
-            markInfo = "";
-        } else if (parseInt(tableListDic.state) === 2) {
-            markInfo = "已清";
+        let detailDataAry = allAuditionAry[i]["data"];
+        if (detailDataAry.length > 1) {
+            for (let j = 0; j < detailDataAry.length; j++) {
+                let subRow = getAuditionDetailRow(detailDataAry[j], rowColor);
+                auditionTable.appendChild(subRow);
+            }
         }
-        markCell.innerHTML = markInfo;
-        row.appendChild(markCell);
     }
 
-    if (parseInt(totalAmount) > 0) {
-        let row = document.createElement('tr');
-        table.appendChild(row);
 
-        row.className = "odd-row-color";
-
-        let nameCell = document.createElement('td');
-        nameCell.innerHTML = "总金额";
-        row.appendChild(nameCell);
-
-        let amountCell1 = document.createElement('td');
-        //不能将s设置成小写的,否则失效
-        amountCell1.colSpan = "3";
-        amountCell1.innerHTML = totalAmount;
-        row.appendChild(amountCell1);
-    }
-
-    return div;
+    let item = template.cloneNode(true);
+    content.appendChild(item);
 }
+
+
+function getExtendClassDataRow(dic, index){
+    let row = document.createElement('tr'); //创建行
+
+    let indexCell = document.createElement('td'); //创建第一列id
+    indexCell.innerHTML = index + 1; //填充数据
+    row.appendChild(indexCell); //加入行  ，下面类似
+
+    let nameCell = document.createElement('td');//创建第二列name
+    nameCell.innerHTML = dic.name;
+    row.appendChild(nameCell);
+
+    let idCell = document.createElement('td');//创建第三列job
+    row.appendChild(idCell);
+    //
+    // if (isTouchGo) {
+    //     let idA = document.createElement('a');//创建第三列job
+    //     idA.innerHTML = dic.ID;
+    //     idA.href = getCustomerUrlByStudentId(dic.ID);
+    //     idA.target = "_blank";
+    //     idCell.appendChild(idA);
+    // } else {
+    //     idCell.innerHTML = dic.ID;
+    // }
+    idCell.innerHTML = dic.ID;
+
+
+    let subjectCell = document.createElement('td');//创建第三列job
+    subjectCell.innerHTML = dic.subject;
+    row.appendChild(subjectCell);
+
+    let timeCell = document.createElement('td');//创建第三列job
+    timeCell.innerHTML = dic.time;
+    row.appendChild(timeCell);
+
+    return row; //返回tr数据
+}
+
+function getDeadSleepDataRow(dic, index){
+    let row = document.createElement('tr'); //创建行
+
+    let indexCell = document.createElement('td'); //创建第一列id
+    indexCell.innerHTML = index + 1; //填充数据
+    row.appendChild(indexCell); //加入行  ，下面类似
+
+    let nameCell = document.createElement('td');//创建第二列name
+    nameCell.innerHTML = dic.name;
+    row.appendChild(nameCell);
+
+    let idCell = document.createElement('td');//创建第三列job
+    row.appendChild(idCell);
+
+    // if (isTouchGo) {
+    //     let idA = document.createElement('a');//创建第三列job
+    //     idA.innerHTML = dic.ID;
+    //     idA.href = getCustomerUrlByStudentId(dic.ID);
+    //     idA.target = "_blank";
+    //     idCell.appendChild(idA);
+    // } else {
+    //     idCell.innerHTML = dic.ID;
+    // }
+    idCell.innerHTML = dic.ID;
+
+
+    let lastTimeCell = document.createElement('td');//创建第三列job
+    lastTimeCell.innerHTML = dic.lastTime;
+    row.appendChild(lastTimeCell);
+
+    let newTimeCell = document.createElement('td');//创建第三列job
+    newTimeCell.innerHTML = dic.newTime;
+    row.appendChild(newTimeCell);
+
+    return row; //返回tr数据
+}
+
+function getAuditionDataRow(dic, index){
+    let row = document.createElement('tr'); //创建行
+
+    if(index % 2 === 0){
+        row.style.backgroundColor = "#FFFFFF";
+    }else{
+        row.style.backgroundColor = "#FFF0AC";
+    }
+
+    let rowSpan = dic["data"].length + 1;
+
+    if (rowSpan === 2) {
+        rowSpan = "1";
+    }
+
+    let indexCell = document.createElement('td'); //创建第一列id
+    indexCell.innerHTML = index + 1; //填充数据
+    indexCell.rowSpan = rowSpan;
+    row.appendChild(indexCell); //加入行  ，下面类似
+
+    let nameCell = document.createElement('td');//创建第二列name
+    nameCell.innerHTML = dic.name;
+    nameCell.rowSpan = rowSpan;
+    row.appendChild(nameCell);
+
+    let idCell = document.createElement('td');//创建第三列job
+    idCell.rowSpan = rowSpan;
+    row.appendChild(idCell);
+
+    // if (isTouchGo) {
+    //     let idA = document.createElement('a');//创建第三列job
+    //     idA.innerHTML = dic.ID;
+    //     idA.href = getCustomerUrlByStudentId(dic.ID);
+    //     idA.target = "_blank";
+    //     idCell.appendChild(idA);
+    // } else {
+    //     idCell.innerHTML =isTouchGo  dic.ID;
+    // }
+
+    idCell.innerHTML = dic.ID;
+
+    let timeCell = document.createElement('td');//创建第三列job
+    timeCell.innerHTML = dic.firstDate + "-" + dic.endDate;
+    timeCell.rowSpan = rowSpan;
+    row.appendChild(timeCell);
+
+    if (parseInt(rowSpan) === 1) {
+
+        let detailDic = dic["data"][0];
+
+        let subjectCell = document.createElement('td');
+        subjectCell.innerHTML = detailDic.subject;
+        subjectCell.rowSpan = rowSpan;
+        row.appendChild(subjectCell);
+
+        let detailTimeCell = document.createElement('td');
+        detailTimeCell.innerHTML = detailDic.time;
+        detailTimeCell.rowSpan = rowSpan;
+        row.appendChild(detailTimeCell);
+    }
+
+    return row;
+}
+
+
+function getAuditionDetailRow(dic, rowColor){
+
+    let row = document.createElement('tr');
+
+    row.style.backgroundColor = rowColor;
+
+    let subjectCell = document.createElement('td');
+    subjectCell.innerHTML = dic.subject;
+    row.appendChild(subjectCell);
+
+    let timeCell = document.createElement('td');
+    timeCell.innerHTML = dic.time;
+    row.appendChild(timeCell);
+
+    return row;
+}
+
 
 
 //.html()用为读取和修改元素的HTML标签

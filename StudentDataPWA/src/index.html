@@ -21,7 +21,8 @@
     <link rel="icon" type="image/x-icon" href="https://xzwalk.github.io/PWA/GiftBookPWA/src/pwa-config/favicon.ico"/>
     <!--<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>-->
 
-    <link rel="stylesheet" type="text/css" href="css/table.css"/>
+    <link rel="stylesheet" type="text/css" href="css/table.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 
 <body>
@@ -38,7 +39,7 @@
     <div style="display: flex; flex-direction: row">
 
         <div style="width: 20%;">
-            <div style="margin-left: 10px">更新时间</div>
+            <div id="div_update_time" style="margin-left: 10px">更新时间</div>
             <div id="div_month" style="margin-left: 10px">
             </div>
         </div>
@@ -46,7 +47,7 @@
 
         <template id="div_content_template">
             <div style="text-align: center">
-                <h2>扩科明细表</h2>
+                <h2 style="margin-top: 20px">扩科明细表</h2>
 
                 <table class="mainTable">
                     <tr>
@@ -59,7 +60,7 @@
                     <tbody id="extendClassTable"></tbody>
                 </table>
 
-                <h2>沉睡激活明细表</h2>
+                <h2 style="margin-top: 20px">沉睡激活明细表</h2>
 
                 <table class="mainTable">
                     <tr>
@@ -72,7 +73,7 @@
                     <tbody id="deadSleepTable"></tbody>
                 </table>
 
-                <h2>待扩科学生明细表</h2>
+                <h2 style="margin-top: 20px">待扩科学生明细表</h2>
 
                 <table class="mainTable">
                     <tr>

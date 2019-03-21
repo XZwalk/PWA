@@ -1,0 +1,12 @@
+
+.normal-button {
+    background: #dddddd;
+    height: 30px;
+    width: 80px;
+}
+
+.selected-button {
+    background: #fe5d4e;
+    height: 30px;
+    width: 80px;
+}

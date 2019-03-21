@@ -40,6 +40,7 @@ if (navigator.serviceWorker != null) {
 }
 
 let allData = "";
+let allMonthAry = [];
 
 getDelayAllData(() => {
     allData = JSON.parse(window.zxData);
@@ -58,8 +59,46 @@ function getDelayAllData(completeBlock) {
 
 
 function handleData(allData) {
+    //找出所有月份数据
     for (let key in allData) {
-        createMonthButton(key);
+        allMonthAry.push(key);
+    }
+
+    //月份数据排序
+    dataSortByDate(allMonthAry);
+
+    //创建按钮
+    for (let i = 0; i < allMonthAry.length; i++) {
+        let month = allMonthAry[i];
+        createMonthButton(month);
+    }
+
+    //显示第一个月份数据
+    handleContent(allMonthAry[0]);
+
+
+    let div_update_time = document.getElementById("div_update_time");
+    let newDic = allData[allMonthAry[0]];
+    if (newDic && newDic["date"]) {
+        div_update_time.innerHTML = "更新时间：<br>" + newDic["date"];
+    } else {
+        div_update_time.innerHTML = "更新时间：<br>" + "旧数据";
+    }
+}
+
+//按照日期排序，直接操作的就是原数组数据
+function dataSortByDate(dataAry) {
+    if (dataAry && dataAry.length > 0) {
+        dataAry.sort(function (obj1, obj2) {
+            //日期只能比较大小，不能直接相减
+            if (obj1 > obj2) {
+                return -1;
+            } else if (obj1 < obj2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
     }
 }
 
@@ -71,9 +110,7 @@ function createMonthButton(month) {
     div.style.marginTop = "10px";
     let button = document.createElement("button");
     button.innerHTML = month;
-    button.style.backgroundColor = "gray";
-    button.style.height = "30px";
-    button.style.width = "80px";
+    button.className = "normal-button";
     button.id = month;
     button.onclick = monthButtonClick;
     div.appendChild(button);
@@ -85,6 +122,17 @@ function monthButtonClick() {
 }
 
 function handleContent(month) {
+
+    for (let i = 0; i < allMonthAry.length; i++) {
+        let oneMonth = allMonthAry[i];
+        let button = document.getElementById(oneMonth);
+        if (oneMonth === month) {
+            button.className = "selected-button";
+        } else {
+            button.className = "normal-button";
+        }
+    }
+
 
     let content = document.getElementById("div_content");
     content.innerHTML = "";

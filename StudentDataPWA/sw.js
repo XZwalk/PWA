@@ -6,8 +6,8 @@ let RUNTIME = 'runtime';
 // list the files you want cached by the service worker
 PRECACHE_URLS = [
     // 'index.html',
-    './dist/',
-    // 'style.css',
+    // './dist/index.html',
+    // './dist/*.css',
     // 'main.js'
 ];
 

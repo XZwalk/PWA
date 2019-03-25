@@ -11,3 +11,48 @@
     width: 80px;
     border-color: #fe5d4e;
 }
+
+#div_content {
+    width: 60%;
+}
+
+.div_all {
+    display: flex;
+    flex-direction: row;
+}
+
+.div_month_all {
+    width: 20%;
+}
+
+/*手机屏幕*/
+@media screen and (max-width:480px) {
+    #div_content {
+        margin: auto;
+        width: 80%;
+    }
+
+    .div_all {
+        display: block;
+    }
+
+    .div_month_all {
+        width: 100%;
+    }
+
+    #div_month {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .normal-button {
+        background: #dddddd;
+        margin-left: 10px;
+    }
+
+    .selected-button {
+        background: #fe5d4e;
+        margin-left: 10px;
+        border-color: #fe5d4e;
+    }
+}

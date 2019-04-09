@@ -25,6 +25,10 @@
     width: 20%;
 }
 
+.div_one_month {
+    margin-top: 10px;
+}
+
 /*手机屏幕*/
 @media screen and (max-width:480px) {
     #div_content {
@@ -47,7 +51,7 @@
     }
 
     .div_one_month {
-        margin-top: 20px;
+        margin-top: 10px;
         width: calc(100%/3);
         height: 30px;
     }

@@ -109,7 +109,7 @@ function createMonthButton(month) {
     let monthDiv = document.getElementById("div_month");
 
     let div = document.createElement("div");
-    div.style.marginTop = "10px";
+    div.className = "div_one_month";
     let button = document.createElement("button");
     button.innerHTML = month;
     button.className = "normal-button";

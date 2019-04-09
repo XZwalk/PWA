@@ -29,7 +29,7 @@
 @media screen and (max-width:480px) {
     #div_content {
         margin: auto;
-        width: 80%;
+        width: 90%;
     }
 
     .div_all {
@@ -42,7 +42,14 @@
 
     #div_month {
         display: flex;
-        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .div_one_month {
+        margin-top: 20px;
+        width: calc(100%/3);
+        height: 30px;
     }
 
     .normal-button {

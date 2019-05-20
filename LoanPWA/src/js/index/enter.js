@@ -18,6 +18,7 @@ import { handleFundLoanTotalResponse } from "../data/fund-loan-total";
 import { handleFundRepaymentPlanResponse } from "../data/fund-repayment-plan";
 
 import { handleCarLoanTotalResponse } from "../data/car-loan-total";
+import { handleCarLoanNewTotalResponse } from "../data/car-loan-total-new";
 import { handleCarRepaymentPlanResponse } from "../data/car-repayment-plan";
 
 
@@ -365,6 +366,102 @@ handleCarLoanTotalResponse((data) => {
     $("#car-total-firstDate").html(jsonData.BILUPD);
     $("#car-total-endDate").html(jsonData.ENDDTE);
 });
+
+handleCarLoanNewTotalResponse((data) => {
+    data = decryptedData(data);
+
+    if (!data || data.length === 0) {
+        //隐藏
+        $("#car-loan-advance-1905").css({"display":"none"});
+        return;
+    }
+
+    //去字符串后面的特殊字符
+    data = data.replace(/\u0000/g, "");
+    let jsonData = JSON.parse(data);
+    createCarLoanAdvance1905Div(jsonData);
+});
+
+
+function createCarLoanAdvance1905Div(jsonData) {
+
+    let ary = createNewCarLoanDivData(jsonData);
+
+    let div = document.getElementById("car-loan-advance-1905");
+
+    let table = document.createElement('table');
+    // table.style.fontSize = '15px';
+    table.className = "alt-rows-table";
+    div.appendChild(table);
+
+
+    for (let i = 0; i < ary.length; i++) {
+
+        let item = ary[i];
+
+        let row = document.createElement('tr'); //创建行
+        table.appendChild(row);
+
+        let titleCell = document.createElement('td');
+        titleCell.innerHTML = item.title;
+        row.appendChild(titleCell);
+
+        let valueCell = document.createElement('td');
+        valueCell.innerHTML = item.value;
+        row.appendChild(valueCell);
+
+        if(i % 2 == 0){
+            row.className = "even-row-color";
+        }else{
+            row.className = "odd-row-color";
+        }
+    }
+}
+
+function createNewCarLoanDivData(jsonData) {
+    let ary = [{
+        "title": "提前还款日期",
+        "value": jsonData.advanceDate
+    }, {
+        "title": "提前还款金额",
+        "value": jsonData.advanceAmount
+    }];
+
+    //获取总利息
+    let originAry = jsonData.INFBDY.WCPAYPLNZ1;
+
+    let totalInterest = 0;
+    let today = getTodayDate(1);
+    let surplusPayInterest = 0;
+    let surplusPayAmount = 0;
+
+    for (let i = 0; i < originAry.length; i++) {
+        let item = originAry[i];
+        totalInterest += parseFloat(item.INTAMT);
+
+        if (today < item.PAYDTE) {
+            surplusPayInterest += parseFloat(item.INTAMT);
+            surplusPayAmount += parseFloat(item.CPTAMT);
+        }
+    }
+
+    ary.push({
+        "title": "总利息",
+        "value": totalInterest.toFixed(2).toString()
+    });
+
+    ary.push({
+        "title": "剩余本金",
+        "value": surplusPayAmount.toFixed(2).toString()
+    });
+
+    ary.push({
+        "title": "剩余利息",
+        "value": surplusPayInterest.toFixed(2).toString()
+    });
+
+    return ary;
+}
 
 handleCarRepaymentPlanResponse((data) => {
     data = changEncryptionDataToJson(data);

@@ -62,7 +62,7 @@ function buttonClick() {
         let oneItem = oneAry[i];
         let div = document.createElement('div');
         contentDiv.appendChild(div);
-        div.style.width = '150px';
+        div.style.width = '100%';
         div.style.padding = '30px';
 
         let title = document.createElement('p');
